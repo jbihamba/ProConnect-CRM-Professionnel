@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+        <html lang="en">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>SignIn-Proconnect</title>
+            <link rel="stylesheet" href="css/style.css">
+           <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+        </head>
+        <body>
+            <main class="auth-layout">
+                <section class="auth-card" id="login-section">
+                     <!-- Header -->
+                   <header  class="auth-header">
+
+                    <h1 class="auth-title">Welcome Back</h1>
+
+                    <p  class="auth-subtitle">
+                        Sign in to manage your contacts
+                    </p>
+                   </header>
+
+                    <!-- Login form -->
+                    <div class="auth-form-wrapper">
+
+                        <form class="auth-form">
+                            <p class="error-text" id="error-text"></p>
+
+                            <div class="form-group">
+                             <label  class="form-label">Username</label>
+                                <div class="input-field">
+                                 <span><i class="bi bi-person-fill"></i></span> 
+                                <input 
+                                    type="text" 
+                                    id="username-input" 
+                                    placeholder="Enter your username" required>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                            <label class="form-label">Password</label>
+                                <div class="input-field">
+                                 <span><i class="bi bi-lock"></i></span> 
+                                <input
+                                    type="password" 
+                                    id="password-input" 
+                                    placeholder="......" required>
+                                </div>
+                            </div>
+
+                        </form>
+
+                        <button class="btn-primary" id="login-submit-btn">Sign In</button>
+                        
+                    </div>
+                     <p class="help">Need help? <a href="#"> Contact Support</a></p>
+                </section>
+            </main>
+        </body>
+</html>
