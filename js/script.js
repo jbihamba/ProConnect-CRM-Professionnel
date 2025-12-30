@@ -13,10 +13,25 @@ function generateToken() {
      // Génère une chaîne aléatoire + timestamp (OK pour apprentissage)
      return Math.random().toString(36).substring(2) + Date.now().toString(36);
 }
+// Affiche ou cache le loader
+function toggleLoader(show) {
+    const loader = document.getElementById("login-loader");
+    loader.style.display = show ? "block" : "none";
+}
+
+// Simule un délai (utile pour loader)
+function delay(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+}
 
 // Fonction de connexion utilisateur
 async function loginUser(username ,password){
+   
+   //Appel de la fonction pour afficher le loader
+    toggleLoader(true);
    try {
+      // Simule un délai de chargement
+        await delay(1500); 
       // Réinitialise le message d'erreur à chaque tentative
     errorMessage.textContent = "";
 
@@ -64,6 +79,8 @@ async function loginUser(username ,password){
     console.error("Error during login:", error);
 
    } finally {
+       // Cache le loader et réactive le bouton
+        toggleLoader(false);
       // Réactive le bouton dans tous les cas
     loginSubmitBtn.disabled = false;
    }

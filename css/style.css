@@ -80,6 +80,23 @@ body{
     border: none;
     outline: none;
 }
+
+/* Spinner circulaire simple */
+.spinner {
+  border: 4px solid #f3f3f3; /* gris clair */
+  border-top: 4px solid #003094; /* couleur principale */
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  animation: spin 1s linear infinite;
+  margin: 10px auto; /* centrer horizontalement */
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
 .btn-primary{
     border: none;
     background-color: #003094;
