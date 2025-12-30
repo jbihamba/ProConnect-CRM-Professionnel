@@ -22,6 +22,7 @@
     {   "id":1,
         "name": "joseph",
         "email": "joseph@gmail.com",
+        "avatar": "https://ui-avatars.com/api/?name=John+Doe",
         "companyId": "1"
     }
 ]
