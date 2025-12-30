@@ -1,0 +1,28 @@
+{
+    "profile": {
+    "name": "typicode"
+  },
+  "users": [
+    {
+        "id": 1,
+      "name": "admin",
+      "email": "admin@gmail.com",
+      "username": "admin",
+      "password": "12345"
+    }
+],
+"company":[
+    {
+        "id":1,
+        "name": "tibu tech",
+        "sectors": "technology"
+    }
+],
+"contact":[
+    {   "id":1,
+        "name": "joseph",
+        "email": "joseph@gmail.com",
+        "companyId": "1"
+    }
+]
+}
