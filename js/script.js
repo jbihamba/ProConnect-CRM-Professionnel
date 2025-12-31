@@ -68,7 +68,7 @@ async function loginUser(username ,password){
      // Stocke l'id de l'utilisateur connecté
     localStorage.setItem("id", user.id);
     // Redirige vers le dashboard
-    window.location.href = "dashboard.html";
+    window.location.replace("dashboard.html") ;
 
     }else{
        // Si aucun utilisateur ne correspond
