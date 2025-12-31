@@ -102,9 +102,66 @@ body{
     align-items: center;
     gap: 12px;
 }
+.dashboard-tasks-section{
+    padding: 20px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    
+}
+.topbar{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    background-color: #fff;
+    border-bottom: 1px solid #dee2e6;
+}
+
+.search-box{
+    display: flex;
+    align-items: center;
+    gap: 8px;
+
+    padding: 8px 12px;
+    border-radius: 4px;
+    
+}
+
+.search-input{
+    border: none;
+    outline: none;
+    font-size: 16px;
+}
+
+
+.chart-header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #dee2e6;
+    padding: 16px;
+}
+
+.dashboard-tasks-progress-header{
+    display: flex;
+    justify-content: space-between;
+   padding: 24px;
+    align-items: center;
+    
+}
+.dashboard-tasks-progress-bar{
+    width: 90%;
+    background-color: #e9ecef;
+    border-radius: 8px;
+    overflow: hidden;
+    height: 8px;
+   
+}
+
 .week-picker {
   font-family: system-ui, sans-serif;
-  width: fit-content;
+  width: 100%;
 }
 
 .full-date {
@@ -115,7 +172,8 @@ body{
 
 .week-days {
   display: flex;
-  gap: 22px;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .day {
@@ -152,4 +210,30 @@ body{
 .dashboard-task-assignee img{
     width: 100%;
     border-radius: 50%;
+}
+
+/* Conteneur du graphique */
+.chart-card {
+  width: 100%;
+  max-width: 600px;
+  background-color: #ffffff;
+  padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+
+}
+
+/* Titre */
+.chart-title {
+  text-align: center;
+  font-size: 18px;
+  font-weight: 600;
+  
+  color: #333;
+}
+
+/* Canvas responsive */
+.chart-card canvas {
+  width: 100% !important;
+  height: auto !important;
 }

@@ -1,6 +1,23 @@
  const daysContainer = document.getElementById("weekDays");
 const fullDate = document.getElementById("fullDate");
+const coreCharte = document.getElementById("core-charte");
 
+new Chart(coreCharte, {
+  type: "line",
+  data: {
+    labels: ["Jan", "Fév", "Mar", "Avr", "Mai", "Juin", "Juil"],
+    datasets: [{
+      label: "close deals",
+      data: [65, 59, 80, 81, 56, 55, 40],
+      fill: false,
+      borderColor: "rgb(75, 192, 192)",
+      tension: 0.1
+    }]
+  },
+  options: {
+    responsive: true
+  }
+});
 
 const today = new Date();
 const startOfWeek = new Date(today);

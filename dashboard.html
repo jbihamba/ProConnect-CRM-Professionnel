@@ -11,6 +11,8 @@
             <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.css" rel="stylesheet">
              <!-- FullCalendar JS -->
             <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js"></script>
+            <!-- Chart.js -->
+             <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
         </head>
         <body>
            <!-- Sidebar -->
@@ -116,7 +118,9 @@
                         <p>Show : <span id="dashboardTasksFilter">This week <i class="bi bi-chevron-down"></i></span></p>
                       </div>
 
-                      <progress  class="dashboard-tasks-progress-bar" value="65" max="100" id="dashboardTasksProgressBar"></progress>
+                      <div>
+                        <progress  class="dashboard-tasks-progress-bar" value="65" max="100" id="dashboardTasksProgressBar"></progress>
+                      </div>
                     </div>
                        <!-- Date & week -->
                         <p class="full-date" id="fullDate"></p>
@@ -174,6 +178,18 @@
                               </div>
                         </div>
                 </div>
+
+                <!-- Chart.js -->
+                 <div class="chart-section">
+                    <div class="chart-card">
+                      <div class="chart-header">
+                        <p>Deals</p>
+                        <p>Show : <span>Monthly</span></p>
+                      </div>
+                    <canvas id="core-charte"></canvas>
+                  </div>
+                 </div>
+
               </section>
             </main>
             <script src="js/dashboard.js"></script>
