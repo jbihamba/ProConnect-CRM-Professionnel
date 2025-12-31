@@ -1,0 +1,155 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body{
+    display: grid;
+    grid-template-columns: 300px 1fr;
+    gap: 24px;
+    font-family: Arial, Helvetica, sans-serif;
+}
+/*aside*/
+.sidebar{
+    padding: 4rem ;
+    position: sticky;
+    top: 0;
+    padding: 20px;
+    background-color: #f8f9fa;
+}
+.sidebar-brand a{
+    text-decoration: none;
+    font-size: 24px;
+    font-weight: bold;
+    color: #0d6efd;
+}
+.sidebar-brand{
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.sidebar-nav{    
+    height: 95vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+.sidebar-user{
+    display: flex;
+    align-items: center;
+    gap: 12px;
+   
+    width: 50px;
+}
+.sidebar-user img{
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+}
+
+.nav-menu{
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+.sidebar-content{
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+.nav-item{
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    cursor: pointer;
+}
+
+.submenu{
+    padding: 1rem;
+    list-style: circle;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.submenu a{
+    text-decoration: none;
+    color: #000;
+    font-size: 16px;
+}
+.sidebar-logout button, .sidebar-settings span{
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    cursor: pointer;
+}
+.sidebar-logout button{
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #6c757d
+}
+.nav-link{
+    text-decoration:none ;
+    color: #000;
+    font-size: 18px;
+     display: flex;
+    align-items: center;
+    gap: 12px;
+}
+.week-picker {
+  font-family: system-ui, sans-serif;
+  width: fit-content;
+}
+
+.full-date {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+.week-days {
+  display: flex;
+  gap: 22px;
+}
+
+.day {
+  text-align: center;
+  color: #8a94a6;
+  cursor: pointer;
+}
+
+.day span {
+  display: block;
+}
+
+.day .date {
+  margin-top: 6px;
+  width: 32px;
+  height: 32px;
+  line-height: 32px;
+  border-radius: 50%;
+}
+
+.day.active {
+  color: #0d6efd;
+}
+
+.day.active .date {
+  background: #0d6efd;
+  color: white;
+}
+
+/* dashboard-task-assignee*/
+.dashboard-task-assignee{
+    width: 32px;
+}
+.dashboard-task-assignee img{
+    width: 100%;
+    border-radius: 50%;
+}

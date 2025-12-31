@@ -2,7 +2,6 @@
 const fullDate = document.getElementById("fullDate");
 
 
-
 const today = new Date();
 const startOfWeek = new Date(today);
 startOfWeek.setDate(today.getDate() - today.getDay()); // dimanche

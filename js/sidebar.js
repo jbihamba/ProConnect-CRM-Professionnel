@@ -31,7 +31,7 @@ if (sidebarLogout) {
     localStorage.removeItem("token");
     localStorage.removeItem("id");
 
-    // Redirige vers la page de login sans possibilité de revenir en arrière
+    // Redirige vers la page de login sans possibilité de revenir en arrière 
     window.location.replace("index.html");
   });
 }
