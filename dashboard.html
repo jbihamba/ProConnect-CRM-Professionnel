@@ -79,11 +79,11 @@
                     </div>
                 </div>
                 </nav>
-               </div>
+               
 
                 <!-- Sidebar toggle -->
                <div class="sidebar-footer">
-                    <button class="sidebar-toggle-btn" id="sidebarToggleBtn">
+                    <button class="sidebar-toggle-btn" id="sidebar-toggle-btn">
                       <i class="bi bi-layout-sidebar-inset-reverse"></i>Toggle sidebar</button>
                </div>
             </aside>
@@ -102,7 +102,7 @@
                         placeholder="Global search">
                     </div>
 
-                    <span class="notification-icon" id="notificationBtn"><i class="bi bi-bell-fill"></i></span>
+                    <span class="notification-icon" id="notificationBtn"><i class="bi bi-bell"></i></span>
                 </nav>
 
                 
@@ -115,7 +115,7 @@
 
                       <div class="dashboard-tasks-progress-header">
                         <h3>8 Task completed out of 10</h3>
-                        <p>Show : <span id="dashboardTasksFilter">This week <i class="bi bi-chevron-down"></i></span></p>
+                        <p>Show : <span id="dashboardTasksFilter">This week <i class="bi bi-caret-down-fill"></i></span></p>
                       </div>
 
                       <div>
@@ -142,7 +142,9 @@
                              <div class="dashboard-task-meta">
 
                                 <div class="dashboard-task-assignee">
-                                  <img src="images/aiony-haust-3TLl_97HNJo-unsplash.jpg" alt="Assignee avatar" class="task-avatar">
+                                 <div class="dashboard-task-assignee-image">
+                                   <img src="images/aiony-haust-3TLl_97HNJo-unsplash.jpg" alt="Assignee avatar" class="task-avatar">
+                                 </div>
                                   <span class="task-priority high-priority">Joseph bihamba</span>
                                 </div>
 
@@ -164,31 +166,71 @@
                           
                               <div class="dashboard-task-meta">
                                 <div class="dashboard-task-assignee">
-                                  <img src="images/aiony-haust-3TLl_97HNJo-unsplash.jpg" alt="avatar-banner" class="task-avatar">
-                                  <span class="task-priority high-priority" class="dashboard-task-assignee-name">Joseph bihamba</span>
+                                  <div class="dashboard-task-assignee-image">
+                                    <img src="images/aiony-haust-3TLl_97HNJo-unsplash.jpg" alt="Assignee avatar" class="task-avatar">
+                                  </div>
+                                  <span class="task-priority high-priority" id="dashboard-task-assignee-name">Joseph bihamba</span>
                                 </div>
                                 <div class="dashboard-task-actions">
                                   <i class="bi bi-circle" style="color: yellow;">
 
                                   </i><i class="bi bi-circle" style="color: green;"></i>
-                                  <i class="bi bi-pen-fill"></i>
-                                  <i class="bi bi-trash-fill"></i>
-                                  <p>End</p>
+                                  <i class="bi bi-pen-fill" style="color: #aeb4b7;"></i>
+                                  <i class="bi bi-trash-fill" style="color: #aeb4b7;"></i>
+                                  <span>End</span>
                                 </div>
                               </div>
+                        </div>
+
+                        <!--previous tasks-->
+                         <div class="dashboard-task-card completed" id="dashboardTask-one">
+
+                          <div  class="dashboard-task-main">
+
+                            <div class="dashboard-task-info">
+                              <h3 >Office meet-up</h3>
+                              <p>Due date : <span> December 23,2025</span></p>
+                            </div>
+
+                            <span class="dashboard-task-type reminder">Event</span>
+                          </div>
+
+                             <div class="dashboard-task-meta">
+
+                                <div class="dashboard-task-assignee">
+                                 <div class="dashboard-task-assignee-image">
+                                   <img src="images/aiony-haust-3TLl_97HNJo-unsplash.jpg" alt="Assignee avatar" class="task-avatar">
+                                 </div>
+                                  <span class="task-priority high-priority">Joseph bihamba</span>
+                                </div>
+
+                                <span  class="dashboard-task-status-cancel">cancel</span>
+                             </div>
                         </div>
                 </div>
 
                 <!-- Chart.js -->
-                 <div class="chart-section">
+                 <section class="chart-section">
                     <div class="chart-card">
                       <div class="chart-header">
-                        <p>Deals</p>
-                        <p>Show : <span>Monthly</span></p>
+                        <h4>Deals</h4>
+                        <p>Show : <span>Monthly <i class="bi bi-caret-down-fill"></i></span></p>
                       </div>
                     <canvas id="core-charte"></canvas>
                   </div>
-                 </div>
+
+                  <!--Chart.js-->
+                  <div class="chart-cart">
+                    <div class="chart-header">
+                      <h4>Tasks</h4>
+                      <p>Show : <span>This month <i class="bi bi-caret-down-fill"></i></span></p>
+                    </div>
+                    <!-- ✅ Wrapper du chart -->
+                    <div class="circle-chart-wrapper">
+                      <canvas id="circle-chart"></canvas>
+                    </div>
+                  </div>
+                 </section>
 
               </section>
             </main>

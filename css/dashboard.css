@@ -12,11 +12,11 @@ body{
 }
 /*aside*/
 .sidebar{
-    padding: 4rem ;
     position: sticky;
     top: 0;
     padding: 20px;
-    background-color: #f8f9fa;
+    height: 100vh;  
+    transition: all 0.3s ease;
 }
 .sidebar-brand a{
     text-decoration: none;
@@ -43,6 +43,9 @@ body{
    
     width: 50px;
 }
+.user-email{
+    color: #9199a9;
+}
 .sidebar-user img{
     width: 48px;
     height: 48px;
@@ -54,6 +57,16 @@ body{
     display: flex;
     flex-direction: column;
     gap: 24px;
+    
+
+}
+/*nav-link hover*/
+.nav-link:hover{
+    color :#0d6efd;
+}
+/*nav-item hover*/
+.nav-item:hover{
+    color: #0a58ca;
 }
 .sidebar-content{
     display: flex;
@@ -66,6 +79,7 @@ body{
     align-items: center;
     gap: 16px;
     cursor: pointer;
+     transition: color 0.3s ease;
 }
 
 .submenu{
@@ -74,6 +88,7 @@ body{
     display: flex;
     flex-direction: column;
     gap: 12px;
+
 }
 
 .submenu a{
@@ -94,6 +109,15 @@ body{
     cursor: pointer;
     color: #6c757d
 }
+.sidebar-toggle-btn{
+    border: none;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: none;
+}
+
+
 .nav-link{
     text-decoration:none ;
     color: #000;
@@ -101,13 +125,16 @@ body{
      display: flex;
     align-items: center;
     gap: 12px;
+    transition: color 0.3s ease;
 }
 .dashboard-tasks-section{
     padding: 20px;
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    
+    gap: 24px;
+    background-color: #f1f3f5;  
 }
+
 .topbar{
     display: flex;
     justify-content: space-between;
@@ -121,7 +148,6 @@ body{
     display: flex;
     align-items: center;
     gap: 8px;
-
     padding: 8px 12px;
     border-radius: 4px;
     
@@ -131,6 +157,45 @@ body{
     border: none;
     outline: none;
     font-size: 16px;
+}
+
+.dashboard-tasks-progress-header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 12px;  
+}
+.dashboard-tasks-progress-header h3{
+    font-size: 20px;
+    font-weight: 300;
+}
+.dashboard-tasks-progress-header p{
+    font-size: 14px;
+    color: #6c757d;
+}
+.dashboard-tasks-progress-header span{
+    font-size: 16px;
+    color: #0d6efd;
+    cursor: pointer;
+}
+.dashboard-tasks-progress-bar{
+    width: 100%;
+    background-color:  #c3e6cb;
+    border-radius: 8px;
+    overflow: hidden;
+    height: 8px;
+   
+}
+
+.week-picker {
+  font-family: system-ui, sans-serif;
+  width: 100%;
+  padding: 20px;
+ background-color: #fff;
+  border-radius: 8px;
+      display: flex;
+    flex-direction: column;
+    gap: 2rem;
 }
 
 
@@ -143,26 +208,6 @@ body{
     padding: 16px;
 }
 
-.dashboard-tasks-progress-header{
-    display: flex;
-    justify-content: space-between;
-   padding: 24px;
-    align-items: center;
-    
-}
-.dashboard-tasks-progress-bar{
-    width: 90%;
-    background-color: #e9ecef;
-    border-radius: 8px;
-    overflow: hidden;
-    height: 8px;
-   
-}
-
-.week-picker {
-  font-family: system-ui, sans-serif;
-  width: 100%;
-}
 
 .full-date {
   font-size: 18px;
@@ -204,36 +249,146 @@ body{
 }
 
 /* dashboard-task-assignee*/
-.dashboard-task-assignee{
-    width: 32px;
-}
-.dashboard-task-assignee img{
-    width: 100%;
-    border-radius: 50%;
+.dashboard-task-main{
+    display: flex;
+    justify-content: space-between;
+    align-items: start;
 }
 
+/* dashboard-task-card*/
+.dashboard-task-card{
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+/* dashboard-task-info*/
+.dashboard-task-info{
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+.dashboard-task-info p{
+    font-size: 16px;
+    color: #aeb4b7;
+}
+.dashboard-task-info span{
+    color: #c0c5c8;
+}
+.dashboard-task-assignee{
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+.dashboard-task-assignee-image{
+    width: 40px;
+    height: 40px;
+    overflow: hidden;
+}
+.dashboard-task-assignee-image img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+}
+.dashboard-task-meta{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+   
+}
+.dashboard-task-actions{
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+.task-priority{
+     color: #6c757d;
+}
+.reminder, .call{
+    font-size: 14px;
+    color: #6c757d;
+}
+.dashboard-task-status{
+    font-size: 14px;
+    font-weight: 300;
+    background-color: #28a745;
+    color: #fff;
+    padding: 4px 14px;
+    border-radius: 4px;
+}
+.dashboard-task-status-cancel{
+    font-size: 14px;
+    font-weight: 300;
+    background-color: #facc15;
+    color: #fff;
+    padding: 4px 14px;
+    border-radius: 4px;
+}
+.dashboard-task-actions span{
+    font-size: 14px;
+    color: #fff;
+    padding: 4px 14px;
+    border-radius: 4px;
+    background-color: #e5203d;
+}
 /* Conteneur du graphique */
+.chart-section{
+    width: 100%;
+    max-width: 1200px;
+   display: flex;
+   flex-direction: column;
+   gap: 2rem;
+}
 .chart-card {
-  width: 100%;
-  max-width: 600px;
   background-color: #ffffff;
   padding: 20px;
   border-radius: 12px;
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
-
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
-
+.chart-header p{
+    color: #6c757d;
+}
+.chart-header span{
+    color: #0d6efd;
+    cursor: pointer;
+}
+.chart-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.12);
+}
 /* Titre */
 .chart-title {
   text-align: center;
   font-size: 18px;
   font-weight: 600;
-  
   color: #333;
 }
-
+.chart-cart{
+    background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.chart-cart:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.12);
+}
+/* Conteneur du canvas */
+.circle-chart-wrapper{
+width: 100%;
+  max-width: 400px;
+  margin: 0 auto;
+ 
+}   
 /* Canvas responsive */
 .chart-card canvas {
   width: 100% !important;
-  height: auto !important;
+  height: 300px !important;
 }
