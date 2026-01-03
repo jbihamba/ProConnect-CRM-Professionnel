@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+        <html lang="en">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Dashboard</title>
+            <link rel="stylesheet" href="css/dashboard.css">
+             <!-- Bootstrap Icons -->
+            <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+             <!-- FullCalendar CSS -->
+            <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.css" rel="stylesheet">
+             <!-- FullCalendar JS -->
+            <script src="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/index.global.min.js"></script>
+            <!-- Chart.js -->
+             <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        </head>
+        <body>
+           <!-- Sidebar -->
+            <aside class="sidebar" id="sidebar">
+                 <!-- Navigation -->
+              <nav class="sidebar-nav">
+                <div class="sidebar-content">
+                 <!-- Logo -->
+                 <div class="sidebar-brand">
+                    <a href="dashboard.html">ProConnect</a>
+                
+                    <!-- User profile -->
+                    <div class="sidebar-user">
+                        <img src="assets/avatar-images.png" alt="aUser avatar" class="user-avatar">
+                        <div class="user-detail">
+                          <p class="user-name" id="user-name">admin</p>
+                        <span class="user-email" id="user-email">admin@proconnect.com</span>
+                        </div>
+                    </div>
+                </div>
+                     <!-- Menu -->
+                    <ul class="nav-menu">
+                        <li class="nav-item"><a href="dashboard.html"  class="nav-link"><i class="bi bi-menu-button-wide"></i>Dashboard</a></li>
+                        <li  class=" has-submenu" id="nav-tasks">
+                          <span class="nav-item"><i class="bi bi-list-task"></i>Tasks</span>
+                          <!--submenu items -->
+                          <ul class="submenu" id="submenu-tasks">
+                            <li ><a href="#">Active</a></li>
+                            <li><a href="#">Completed</a></li>
+                            <li><a href="#">Pending</a></li>
+                        </ul>
+                        </li>
+                        <li class="has-submenu" id="nav-email">
+                          <span class="nav-item"><i class="bi bi-envelope-fill"></i>Email</span>
+                          <!--submenu items -->
+                          <ul class="submenu"  id="submenu-email">
+                            <li><a href="#">Drafts</a></li>
+                            <li><a href="#">Scheduled</a></li>
+                            <li><a href="#">Send</a></li>
+                            <li><a href="#">Archives</a></li>
+                        </ul>
+                        </li>
+                        <li class="nav-item"><a href="Contact.html" class="nav-link"><i class="bi bi-person-fill"></i>Contact</a></li>
+                        <li class="nav-item"><a href="chat.html" class="nav-link"><i class="bi bi-chat-left"></i>Chat</a></li>
+                        <li class="has-submenu"  id="nav-deals">
+                          <span class="nav-item"><i class="bi bi-layout-split"></i>Deals</span>
+                          <!--submenu items -->
+                          <ul class="submenu"  id="submenu-deals">
+                            <li><a href="#">Low</a></li>
+                            <li><a href="#">High</a></li>
+                            <li><a href="#">Urgent</a></li>
+                        </ul>
+                        </li>
+                    </ul>
+
+                     <!-- Settings -->
+                    <div  class="sidebar-settings" id="sidebar-settings">
+                      <span><i class="bi bi-three-dots"></i>Settings</span>
+                    </div>
+
+                    <!--logout-->
+                    <div  class="sidebar-logout" id="sidebar-logout">
+                      <button><i class="bi bi-box-arrow-right"></i>Logout</button>
+                    </div>
+                </div>
+                </nav>
+               
+
+                <!-- Sidebar toggle -->
+               <div class="sidebar-footer">
+                    <button class="sidebar-toggle-btn" id="sidebar-toggle-btn">
+                      <i class="bi bi-layout-sidebar-inset-reverse"></i>Toggle sidebar</button>
+               </div>
+            </aside>
+
+             <!-- Main content -->
+            <main class="main-content" id="mainContent">
+               <!-- Topbar -->
+                <nav class="topbar">
+
+                    <div class="search-box">
+                        <i class="bi bi-search"></i>
+                        <input 
+                        type="text"
+                        class="search-input"
+                        id="search-input"
+                        placeholder="Global search">
+                    </div>
+
+                    <span class="notification-icon" id="notificationBtn"><i class="bi bi-bell"></i></span>
+                </nav>
+
+                
+              <section class="dashboard-tasks-section" id="dashboardTasksSection">
+                 <!-- Week picker -->
+                 <div class="week-picker">
+
+                   <!-- Progress card -->
+                    <div class="dashboard-tasks-progress">
+
+                      <div class="dashboard-tasks-progress-header">
+                        <h3>8 Task completed out of 10</h3>
+                        <p>Show : <span id="dashboardTasksFilter">This week <i class="bi bi-caret-down-fill"></i></span></p>
+                      </div>
+
+                      <div>
+                        <progress  class="dashboard-tasks-progress-bar" value="65" max="100" id="dashboardTasksProgressBar"></progress>
+                      </div>
+                    </div>
+                       <!-- Date & week -->
+                        <p class="full-date" id="fullDate"></p>
+                        <div class="week-days" id="weekDays"> </div>
+
+                          <!-- Task preview item -->
+                        <div class="dashboard-task-card completed" id="dashboardTask-one">
+
+                          <div  class="dashboard-task-main">
+
+                            <div class="dashboard-task-info">
+                              <h3 >Send benefit review by Sunday</h3>
+                              <p>Due date : <span> December 23,2025</span></p>
+                            </div>
+
+                            <span class="dashboard-task-type reminder">Reminder</span>
+                          </div>
+
+                             <div class="dashboard-task-meta">
+
+                                <div class="dashboard-task-assignee">
+                                 <div class="dashboard-task-assignee-image">
+                                   <img src="images/aiony-haust-3TLl_97HNJo-unsplash.jpg" alt="Assignee avatar" class="task-avatar">
+                                 </div>
+                                  <span class="task-priority high-priority">Joseph bihamba</span>
+                                </div>
+
+                                <span  class="dashboard-task-status completed">completed</span>
+                             </div>
+                        </div>
+
+                        <!-- Task preview item -->
+                        <div  class="dashboard-task-card pending" id="dashboardTask-two">
+                          <div class="dashboard-task-main">
+
+                            <div class="dashboard-task-info">
+                              <h3>Invete to office meet-up</h3>
+                              <p>Due date : <span> December 23,2025</span></p>
+                            </div>
+
+                            <span class="dashboard-task-type call">call</span>
+                          </div>
+                          
+                              <div class="dashboard-task-meta">
+                                <div class="dashboard-task-assignee">
+                                  <div class="dashboard-task-assignee-image">
+                                    <img src="images/aiony-haust-3TLl_97HNJo-unsplash.jpg" alt="Assignee avatar" class="task-avatar">
+                                  </div>
+                                  <span class="task-priority high-priority" id="dashboard-task-assignee-name">Joseph bihamba</span>
+                                </div>
+                                <div class="dashboard-task-actions">
+                                  <i class="bi bi-circle" style="color: yellow;">
+
+                                  </i><i class="bi bi-circle" style="color: green;"></i>
+                                  <i class="bi bi-pen-fill" style="color: #aeb4b7;"></i>
+                                  <i class="bi bi-trash-fill" style="color: #aeb4b7;"></i>
+                                  <span>End</span>
+                                </div>
+                              </div>
+                        </div>
+
+                        <!--previous tasks-->
+                         <div class="dashboard-task-card completed" id="dashboardTask-one">
+
+                          <div  class="dashboard-task-main">
+
+                            <div class="dashboard-task-info">
+                              <h3 >Office meet-up</h3>
+                              <p>Due date : <span> December 23,2025</span></p>
+                            </div>
+
+                            <span class="dashboard-task-type reminder">Event</span>
+                          </div>
+
+                             <div class="dashboard-task-meta">
+
+                                <div class="dashboard-task-assignee">
+                                 <div class="dashboard-task-assignee-image">
+                                   <img src="images/aiony-haust-3TLl_97HNJo-unsplash.jpg" alt="Assignee avatar" class="task-avatar">
+                                 </div>
+                                  <span class="task-priority high-priority">Joseph bihamba</span>
+                                </div>
+
+                                <span  class="dashboard-task-status-cancel">cancel</span>
+                             </div>
+                        </div>
+                </div>
+
+                <!-- Chart.js -->
+                 <section class="chart-section">
+                    <div class="chart-card">
+                      <div class="chart-header">
+                        <h4>Deals</h4>
+                        <p>Show : <span>Monthly <i class="bi bi-caret-down-fill"></i></span></p>
+                      </div>
+                    <canvas id="core-charte"></canvas>
+                  </div>
+
+                  <!--Chart.js-->
+                  <div class="chart-cart">
+                    <div class="chart-header">
+                      <h4>Tasks</h4>
+                      <p>Show : <span>This month <i class="bi bi-caret-down-fill"></i></span></p>
+                    </div>
+                    <!-- ✅ Wrapper du chart -->
+                    <div class="circle-chart-wrapper">
+                      <canvas id="circle-chart"></canvas>
+                    </div>
+                  </div>
+                 </section>
+
+              </section>
+            </main>
+            <script src="js/dashboard.js"></script>
+            <script src="js/sidebar.js"></script>
+        </body>
+</html>
