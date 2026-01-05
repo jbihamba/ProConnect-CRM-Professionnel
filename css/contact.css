@@ -55,7 +55,7 @@ body{
 }
 
 
-
+/*sidebar style*/
 .sidebar{
      
     position: sticky;
@@ -64,24 +64,27 @@ body{
     height: 100vh;  
     transition: all 0.3s ease;
 }
+/*sidebar brand link style*/
 .sidebar-brand a{
     text-decoration: none;
     font-size: 24px;
     font-weight: bold;
     color: #0d6efd;
 }
+/*sidebar brand style*/
 .sidebar-brand{
     display: flex;
     flex-direction: column;
     gap: 16px;
 }
-
+/*sidebar navigation style*/
 .sidebar-nav{    
     height: 95vh;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
 }
+/*user info style*/
 .sidebar-user{
     display: flex;
     align-items: center;
@@ -89,22 +92,26 @@ body{
    
     width: 50px;
 }
+/*user name style*/
+.user-name{
+    font-size: 16px;
+    font-weight: 600;
+}
 .user-email{
     color: #9199a9;
 }
+/*user image style*/
 .sidebar-user img{
     width: 48px;
     height: 48px;
     border-radius: 50%;
 }
-
+/*nav-menu style*/
 .nav-menu{
     list-style: none;
     display: flex;
     flex-direction: column;
     gap: 24px;
-    
-
 }
 /*nav-link hover*/
 .nav-link:hover{
@@ -114,11 +121,13 @@ body{
 .nav-item:hover{
     color: #0a58ca;
 }
+/*sidebar content style*/
 .sidebar-content{
     display: flex;
     flex-direction: column;
     gap: 2rem;
 }
+/*nav-item style*/
 .nav-item{
     font-size: 18px;
     display: flex;
@@ -127,7 +136,7 @@ body{
     cursor: pointer;
      transition: color 0.3s ease;
 }
-
+/*submenu style*/
 .submenu{
     padding: 1rem;
     list-style: circle;
@@ -136,12 +145,13 @@ body{
     gap: 12px;
 
 }
-
+/*submenu link style*/
 .submenu a{
     text-decoration: none;
     color: #000;
     font-size: 16px;
 }
+/*logout and settings style*/
 .sidebar-logout button, .sidebar-settings span{
     font-size: 18px;
     display: flex;
@@ -149,12 +159,14 @@ body{
     gap: 16px;
     cursor: pointer;
 }
+/*logout button style*/
 .sidebar-logout button{
     background: none;
     border: none;
     cursor: pointer;
     color: #6c757d
 }
+/*sidebar toggle button*/
 .sidebar-toggle-btn{
     border: none;
     display: flex;
@@ -164,7 +176,7 @@ body{
     color: #6c757d;
 }
 
-
+/*nav-link style*/
 .nav-link{
     text-decoration:none ;
     color: #000;
@@ -174,7 +186,7 @@ body{
     gap: 12px;
     transition: color 0.3s ease;
 }
-
+/*topbar style*/
 .topbar{
     display: flex;
     justify-content: space-between;
@@ -183,7 +195,7 @@ body{
     background-color: #fff;
     border-bottom: 1px solid #dee2e6;
 }
-
+/*search box style*/
 .search-box{
     display: flex;
     align-items: center;
@@ -192,7 +204,7 @@ body{
     border-radius: 4px;
     
 }
-
+/*search input style*/
 .search-input{
     border: none;
     outline: none;
@@ -204,21 +216,25 @@ body{
     padding: 24px;
     min-height: 100vh;
 }
+/*toolbar header style*/
 .contacts-toolbar-header{
     display: flex;
     justify-content: space-between;
     align-items: center;
    
 }
+/*header title style*/
 .contacts-toolbar-header h4{
     font-size: 14px;
     font-weight: 200;
 }
+/*filter style*/
 .contacts-filter span{
     font-size: 14px;
     color: #0d6efd;
     cursor: pointer;
 }
+/*add contact button style*/
 .contacts-add-btn{
     padding: 8px 16px;
     background-color: #0d6efd;
@@ -232,6 +248,7 @@ body{
 .contacts-add-btn:hover{
     background-color: #0a58ca;
 }
+/*modal overlay style*/
 .contact-modal{
     position: fixed;
     inset: 0;
@@ -243,6 +260,10 @@ body{
     align-items: center;
     z-index: 1000;
 }
+.hidden {
+  display: none;
+}
+/*modal content style*/
 .contact-modal-content{
     background-color: #fff;
     padding: 24px;
@@ -252,33 +273,38 @@ body{
     flex-direction: column;
     gap: 16px;
 }
+/*modal title style*/
 .contact-modal-title{
     font-size: 20px;
     font-weight: bold;
     margin-bottom: 12px;
 }
+/*contact form style*/
 .contact-form{
     display: flex;
     flex-direction: column;
     gap: 12px;
 }
+/*input field style*/
 .contact-form-input{
     padding: 8px;
     border: 1px solid #ced4da;
     border-radius: 4px;
     font-size: 14px;
 }
+/*input focus style*/
 .contact-form-input:focus{
     border-color: #0d6efd;
     outline: none;
     box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.25);
 }
+/*file input style*/
 .contact-form-file{
     font-size: 14px;
     color: #6c757d;
 
 }
-
+/* Close button */
 .contact-modal-close-btn{
     align-self: flex-end;
     background: none;
@@ -290,7 +316,7 @@ body{
 }.contact-modal-close-btn:hover{
     color: #000;
 }
-
+/* Contact form submit button */
 .contact-form-submit-btn{
     padding: 10px;
     background-color: #0d6efd;
@@ -304,7 +330,47 @@ body{
 .contact-form-submit-btn:hover{
     background-color: #0a58ca;
 }
+/*contacts table*/
+.contacts-table{
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 16px;
+    background-color: #fff;
+}
+/*table header and data cells*/
+.contacts-table th, .contacts-table td{
+    padding: 12px;
+    text-align: left;
+    font-size: 14px;
+}
+/*table header background*/
 
+.contacts-select-col{
+    width: 40px;
+}
+/*table row hover effect*/
+.contacts-table tr:hover{
+    background-color: #f1f3f5;
+}
+/*contact avatar image*/
+.contact-avatar{
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+/*actions column*/
+.contact-actions button{
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #6c757d;
+    font-size: 16px;
+    margin-right: 8px;
+}
+.contact-actions button:hover{
+    color: #0d6efd;
+}
 
 
 
