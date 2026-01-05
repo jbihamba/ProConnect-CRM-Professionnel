@@ -89,6 +89,10 @@ body{
    
     width: 50px;
 }
+.user-name{
+    font-size: 16px;
+    font-weight: 600;
+}
 .user-email{
     color: #9199a9;
 }
