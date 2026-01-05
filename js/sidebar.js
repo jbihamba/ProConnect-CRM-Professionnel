@@ -6,11 +6,17 @@ const submenuEmail = document.getElementById("submenu-email");
 const submenuDeals = document.getElementById("submenu-deals");  
 const sidebarLogout = document.getElementById("sidebar-logout");
 const sidebarToggleBtn = document.getElementById("sidebar-toggle-btn");
+const overlay = document.getElementById("sidebar-overlay");
 
-// Sidebar toggle functionality
 sidebarToggleBtn.addEventListener("click", () => {
-  document.body.classList.toggle("sidebar-collapsed");
+  document.body.classList.toggle("sidebar-open");
 });
+
+overlay.addEventListener("click", () => {
+  document.body.classList.remove("sidebar-open");
+});
+
+
 // Toggle submenu for Tasks
 submenuTasks.style.display = "none";
 navTasks.addEventListener("click", () => {
