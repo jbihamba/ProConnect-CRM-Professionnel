@@ -82,5 +82,59 @@
             </aside>
             <!--overlay for sidebar toggle -->
             <div class="sidebar-overlay" id="sidebar-overlay"></div>
+            <!-- Main content -->
+             <main>
+                <!-- Topbar -->
+                <nav class="topbar">
+                  <!-- Search Box -->
+                    <div class="search-box">
+                        <i class="bi bi-search"></i>
+                        <input 
+                        type="text"
+                        class="search-input"
+                        id="search-input"
+                        placeholder="Search for a contact">
+                    </div>
+                    <!-- Notification Icon -->
+                    <span class="notification-icon" id="notificationBtn"><i class="bi bi-bell"></i></span>
+                </nav>
+                <!-- Contact List -->
+                <section class="contacts-toolbar" id="contactsToolbar">
+                  <!-- Toolbar Header -->
+                  <div class="contacts-toolbar-header">
+                    <h4 class="contacts-filter">
+                      Company : 
+                      <span>
+                        All 
+                        <i class="bi bi-caret-down-fill"></i>
+                      </span>
+                    </h4>
+                      <button type="button"  class="contacts-add-btn"  id="add-contact-btn"> Add contact</button>
+                  </div>
+                  <!-- Contact modal -->
+                  <div class="contact-modal" id="contact-modal">
+                    <!-- Modal content -->
+                    <div class="contact-modal-content">
+                      <button class="contact-modal-close-btn" id="close-contact-modal-btn">X</button>
+                      <p class="contact-modal-title">Add new contact</p>
+                      <!-- Form fields -->
+                      <form class="contact-form">
+                        <input type="text"  class="contact-form-input" id="contact-full-name"placeholder="Full Name" required>
+                        <input type="email"  class="contact-form-input" id="contact-email" placeholder="Email" required>
+                        <input type="text"  class="contact-form-input"  id="contact-company"placeholder="Company" required>
+                        <input type="text" class="contact-form-input"  id="contact-sector" placeholder="Company sectors" required>
+                        <input type="file"  class="contact-form-file" id="contact-photo" accept="image/*" required>
+                        <button type="button"  class="contact-form-submit-btn"  id="save-contact-btn">Save Contact</button>
+                      </form>
+                    </div>
+                  </div>
+                </section>
+                     
+             </main>
+                         <!-- Footer -->
+             <footer>
+                <p>&copy;All rights reserved.</p>
+            </footer>
+             <script src="js/sidebar.js"></script>
         </body>
 </html>
