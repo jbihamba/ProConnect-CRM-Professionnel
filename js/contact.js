@@ -27,10 +27,13 @@ addContactBtn.addEventListener("click", () => toggleModal(true));
 //  ferme la fenêtre modale
 closeContactModalBtn.addEventListener("click", () => toggleModal(false));
 
-
-
-   
-saveContactBtn.addEventListener("click", saveContact);  
+//Fonction pour sécuriser le texte et éviter injection HTML
+function escapeHtml(){
+     return str.replace(/&/g, "&amp;")
+              .replace(/</g, "&lt;")
+              .replace(/>/g, "&gt;");
+}
+  
 // Fonction pour enregistrer un nouveau contact
 async function saveContact() {
         // Récupération des valeurs du formulaire
