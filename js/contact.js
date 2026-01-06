@@ -27,6 +27,10 @@ addContactBtn.addEventListener("click", () => toggleModal(true));
 //  ferme la fenêtre modale
 closeContactModalBtn.addEventListener("click", () => toggleModal(false));
 
+
+
+   
+saveContactBtn.addEventListener("click", saveContact);  
 // Fonction pour enregistrer un nouveau contact
 async function saveContact() {
         // Récupération des valeurs du formulaire
