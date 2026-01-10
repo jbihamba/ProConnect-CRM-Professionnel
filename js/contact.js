@@ -82,76 +82,113 @@ function escapeHtml(str){
         errors
     };
 }
+
+let editingContactId = null;
+let editingCompanyId = null;
 // Fonction asynchrone pour sauvegarder un nouveau contact
 async function saveContact() {
-    // Génère des IDs uniques pour le contact et la company
-    const contactId = Date.now().toString(); 
-    const companyId = Date.now().toString() + "-c";
-    // Crée l'objet company à envoyer à l'API
-    const companyData = {
-        id: companyId,
-        name: contactCompany.value.trim(),
-        sectors: contactCompanySector.value.trim()
-    };
-// Récupère le fichier choisi dans l'input type="file" pour l'avatar
+     // Détermine si on est en mode édition (true) ou création (false)
+    const isEdit = editingContactId !== null;
+     // Récupère le fichier avatar sélectionné (s’il existe)
     const avatarFile = contactAvatar.files[0];
-
-    // Fonction interne pour envoyer le contact avec un avatar déjà prêt (Base64 ou URL)
+    // Fonction interne qui envoie le contact quand l’avatar est prêt (URL ou Base64)
     const sendContact = async (avatarValue) => {
-         // Création de l'objet contact à envoyer à l'API
-        const newContact = {
-            id: contactId,
-            fullName: contactFullName.value.trim(),
-            email: contactEmail.value.trim(),
-            companyId: companyId,
-            avatar: avatarValue
-        };
-
+         // MODE ÉDITION
         try {
-             // Envoie les données de la company à l'API
-            await fetch(apiUrlCompany, {
-                 // Méthode POST pour création
-                method: "POST",
-                 // Type JSON
-                headers: {"Content-Type": "application/json"},
-                // Convertir l'objet company en JSON
-                body: JSON.stringify(companyData)
-            });
 
-           // Envoie les données du contact à l'API
-            await fetch(apiUrlContact, {
-                method: "POST",
-                headers: {"Content-Type": "application/json"},
-                body: JSON.stringify(newContact)
-            });
+            if (isEdit) {
+                // Met à jour la company associée au contact
+                await fetch(`${apiUrlCompany}/${editingCompanyId}`, {
+                    // Méthode HTTP pour mise à jour
+                    method: "PUT",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        // Nouveau nom de la company
+                        name: contactCompany.value.trim(),
+                          // Nouveau secteur de la company
+                        sectors: contactCompanySector.value.trim()
+                    })
+                });
 
-            // Ferme la fenêtre modale après l'enregistrement
+                // Met à jour le contact existant
+                await fetch(`${apiUrlContact}/${editingContactId}`, {
+                    // Méthode HTTP pour mise à jour
+                    method: "PUT",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                         // Nom complet du contact
+                        fullName: contactFullName.value.trim(),
+                        // Email du contact
+                        email: contactEmail.value.trim(),
+                         // Avatar (Base64 ou URL)
+                        avatar: avatarValue,
+                         // ID de la company liée
+                        companyId: editingCompanyId
+                    })
+                });
+                 // MODE CRÉATION
+            } else {
+                // Crée une nouvelle company
+                const companyRes = await fetch(apiUrlCompany, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                          // Nom de la company
+                        name: contactCompany.value.trim(),
+                         // Secteur de la company
+                        sectors: contactCompanySector.value.trim()
+                    })
+                });
+                 // Convertit la réponse de l’API en objet JS
+                const company = await companyRes.json();
+
+                 // Crée un nouveau contact lié à la company créée
+                await fetch(apiUrlContact, {
+                    // Méthode HTTP pour création
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                       
+                        fullName: contactFullName.value.trim(),
+                        email: contactEmail.value.trim(),
+                        avatar: avatarValue,
+                        companyId: company.id
+                    })
+                });
+            }
+            // Réinitialise l’ID du contact en cours d’édition
+            editingContactId = null;
+              // Réinitialise l’ID de la company en cours d’édition
+            editingCompanyId = null;
+             // Ferme la fenêtre modale
             toggleModal(false);
-             // Recharge la liste des contacts affichée dans le tableau
+            // Recharge la liste des contacts
             fetchContacts();
-             // Réinitialise le formulaire pour effacer les champs
+             // Réinitialise le formulaire
             document.getElementById("contact-form").reset();
-        } catch (err) {
-             // Affiche une erreur en console si l'envoi échoue
-            console.error("Error saving contact:", err);
+
+        } catch (error) {
+              // Affiche une erreur en cas d’échec
+            console.error("Save failed:", error);
         }
     };
-// Vérifie si l'utilisateur a choisi un fichier avatar
+// GESTION DE L’AVATAR
+ // Si un fichier avatar est sélectionné
     if (avatarFile) {
-         // Création d'un FileReader pour lire le fichier en Base64
+         // Crée un FileReader pour lire le fichier
         const reader = new FileReader();
-         // Quand la lecture du fichier est terminée
-        reader.onload = (e) => {
-             // Appelle sendContact avec la donnée Base64 de l'image
-            sendContact(e.target.result); // Base64
-        };
-        // Commence la lecture du fichier en tant que DataURL (Base64)
+         // Quand la lecture est terminée
+        reader.onload = (e) => sendContact(e.target.result);
+         // Lance la lecture du fichier en Base64
         reader.readAsDataURL(avatarFile);
-    } else {
-         // Si aucun fichier n'est choisi, génère un avatar avec les initiales via ui-avatars.com
-        const fullName = contactFullName.value.trim();
-        const avatarUrl = `https://ui-avatars.com/api/?name=${encodeURIComponent(fullName)}`;
-            // Appelle sendContact avec l'URL générée
+    }
+     // Si aucun avatar n’est sélectionné 
+    else {
+         // Génère un avatar avec les initiales via ui-avatars
+        const avatarUrl = `https://ui-avatars.com/api/?name=${encodeURIComponent(
+            contactFullName.value.trim()
+        )}`;
+        // Envoie le contact avec l’avatar en Base64
         sendContact(avatarUrl);
     }
 }
@@ -239,6 +276,54 @@ async function fetchContacts() {
 
         // Sélectionne le bouton delete dans cette ligne
         const deleteBtn = contactItem.querySelector(".delete-btn");
+
+        // Selectionne le bouton edit dans cette ligne
+        const editBtn = contactItem.querySelector(".edit-btn");
+// Ajoute un écouteur d'événement sur le bouton "éditer"
+        editBtn.addEventListener("click", async () => {
+            try {
+                 // Envoie une requête GET pour récupérer le contact à partir de son ID
+                const response = await fetch(`${apiUrlContact}/${contact.id}`);
+                 // Vérifie si la réponse HTTP n'est pas correcte (404, 500, etc.)
+                if (!response.ok) {
+                    // Lance une erreur si le contact n'existe pas
+                    throw new Error("Contact not found");
+                }
+                 // Convertit la réponse JSON en objet JavaScript
+                const contactData = await response.json();
+
+                // Préremplit le champ "Nom complet" avec les données du contact
+                contactFullName.value = contactData.fullName;
+                 // Préremplit le champ "Email" avec les données du contact
+                contactEmail.value = contactData.email;
+
+                // Envoie une requête GET pour récupérer la company liée au contact
+                const companyResponse = await fetch(
+                    `${apiUrlCompany}/${contactData.companyId}`
+                );
+                // Vérifie si la récupération de la company a réussi
+                if (companyResponse.ok) {
+                      // Convertit la réponse company en objet JavaScript
+                    const companyData = await companyResponse.json();
+                       // Préremplit le champ "Nom de la company"
+                    contactCompany.value = companyData.name;
+                      // Préremplit le champ "Secteur de la company"
+                    contactCompanySector.value = companyData.sectors;
+                }
+
+                 // Stocke l’ID du contact en cours d’édition
+                editingContactId = contactData.id;
+                 // Stocke l’ID de la company associée au contact en cours d’édition
+                editingCompanyId = contactData.companyId;
+
+                 // Ouvre la fenêtre modale pour permettre l’édition du contact
+                toggleModal(true);
+
+            } catch (error) {
+                 // Affiche l'erreur en cas de problème lors de la récupération des données
+                console.error("Error fetching contact for edit:", error);
+            }
+        });
 
         // Ajoute un événement clic pour supprimer le contact
         deleteBtn.addEventListener("click", async () => {
