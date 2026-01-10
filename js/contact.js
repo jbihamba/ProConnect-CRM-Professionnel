@@ -1,5 +1,6 @@
 // URL de l’API backend pour gérer les contacts
-const apiUrl = "http://localhost:3000/contact";
+const apiUrlContact = "http://localhost:3000/contact";
+const apiUrlCompany = "http://localhost:3000/company";
 // Récupération des éléments du DOM
 // Bouton qui ouvre le formulaire / modal d’ajout de contact
 const addContactBtn = document.getElementById("add-contact-btn");
@@ -29,14 +30,16 @@ closeContactModalBtn.addEventListener("click", () => toggleModal(false));
 
 //Fonction pour sécuriser le texte et éviter injection HTML
 function escapeHtml(str){
+     // si null ou undefined, utiliser une chaîne vide
+     str = str || "";
      return str.replace(/&/g, "&amp;")
               .replace(/</g, "&lt;")
               .replace(/>/g, "&gt;");
 }
+
 // Fonction pour valider les données du formulaire de contact
   function validateContactForm() {
     const errors = [];
-
     const fullName = contactFullName.value.trim();
     const email = contactEmail.value.trim();
     const company = contactCompany.value.trim();
@@ -76,17 +79,34 @@ function escapeHtml(str){
 
 // Fonction pour enregistrer un nouveau contact
 async function saveContact() {
+    // Créer un nouvel ID unique pour contact et company
+    const contactId = Date.now().toString(); // simple pour test
+    const companyId = Date.now().toString() + "-c"; // différent pour company
+
+        const companyData = {
+        id: companyId,
+        name: contactCompany.value.trim(),
+        sectors: contactCompanySector.value.trim()
+    };
         // Récupération des valeurs du formulaire
         const newContact = {
-            fullName: contactFullName.value,
-            email: contactEmail.value,
-            company: contactCompany.value,
-            sector: contactCompanySector.value,
-            avatar: contactAvatar.value
+            id: contactId,
+            fullName: contactFullName.value.trim(),
+            email: contactEmail.value.trim(),
+            companyId:companyId,
+           
+            avatar: contactAvatar.value.trim()
         };
         try {
             // Envoi de la requête POST à l’API
-            const response = await fetch(apiUrl, {
+             await fetch(apiUrlCompany, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(companyData)
+            });
+            const response = await fetch(apiUrlContact, {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json"
@@ -105,3 +125,66 @@ async function saveContact() {
             console.error("Error saving contact :", error);
         }
     }
+// Événement de clic sur le bouton d’enregistrement du contact
+saveContactBtn.addEventListener("click", () => {
+    const validation = validateContactForm();
+    const erreurMessage = document.getElementById("erreur-message");
+    erreurMessage.style.display = "none";
+    erreurMessage.innerHTML = "";
+    if (validation.isValid) {
+        saveContact();
+    } else {
+        erreurMessage.style.display = "block";
+        erreurMessage.innerHTML = validation.errors.join("<br>");
+        //
+        erreurMessage.style.color = "red";
+    }
+});
+
+// Fonction pour récupérer et afficher la liste des contacts
+async function fetchContacts() {
+    
+    try {
+        const response = await fetch(apiUrlContact);
+        if (response.ok) {
+            const contacts = await response.json();
+            // Fonction pour afficher les contacts dans l’interface utilisateur
+            displayContacts(contacts);
+        } else {
+            console.error("Error fetching contacts");
+        }
+    } catch (error) {
+        console.error("Error fetching contacts :", error);
+    }
+}
+ async function displayContacts(contacts) {
+    // fetchCompanies doit récupérer toutes les companies
+    const companies = await fetch(apiUrlCompany).then(res => res.json());
+
+    const contactsList = document.getElementById("contacts-table-body");
+    contactsList.innerHTML = ""; // Clear existing contacts
+
+    contacts.forEach(contact => {
+        const company = companies.find(c => c.id === contact.companyId);
+        const companyName = company ? company.name : "";
+        const companySector = company ? company.sectors : "";
+
+        const contactItem = document.createElement("tr");
+        contactItem.className = "contact-item";
+        contactItem.innerHTML = `
+            
+                          <td><input type="checkbox" class="contact-checkbox"></td>
+                          <td><img src="${contact.avatar}" alt="" class="contact-avatar"></td>
+                          <td>${escapeHtml(contact.fullName)}</td>
+                          <td>${escapeHtml(contact.email)}</td>
+                          <td>${escapeHtml(companyName)}</td>
+                          <td>${escapeHtml(companySector)}</td>
+                           <td class="contact-actions">
+                            <button class="action-btn edit-btn" title="Update"><i class="bi bi-pen-fill"></i></button>
+                            <button class="action-btn delete-btn" title="Delete"><i class="bi bi-trash-fill"></i></button>
+                          </td>
+                        ` ;
+        contactsList.appendChild(contactItem);
+    });
+                   }               // Appel initial pour charger les contacts au démarrage
+fetchContacts();

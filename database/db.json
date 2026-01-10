@@ -1,29 +1,79 @@
 {
-    "profile": {
+  "profile": {
     "name": "typicode"
   },
   "users": [
     {
-        "id": 1,
+      "id": 1,
       "name": "admin",
       "email": "admin@gmail.com",
       "username": "admin",
       "password": "12345"
     }
-],
-"company":[
+  ],
+  "company": [
     {
-        "id":1,
-        "name": "tibu tech",
-        "sectors": "technology"
+      "id": 1,
+      "name": "tibu tech",
+      "sectors": "technology"
+    },
+    {
+      "id": "1768045343876-c",
+      "name": "tech solution",
+      "sectors": "tech solution"
+    },
+    {
+      "id": "1768045469772-c",
+      "name": "tech solution",
+      "sectors": "tech solution"
+    },
+    {
+      "id": "1768045587439-c",
+      "name": "kadea",
+      "sectors": "education"
+    },
+    {
+      "id": "1768045963000-c",
+      "name": "kadea",
+      "sectors": "software"
     }
-],
-"contact":[
-    {   "id":1,
-        "name": "joseph",
-        "email": "joseph@gmail.com",
-        "avatar": "https://ui-avatars.com/api/?name=John+Doe",
-        "companyId": "1"
+  ],
+  "contact": [
+    {
+      "id": 1,
+      "name": "joseph",
+      "email": "joseph@gmail.com",
+      "avatar": "https://ui-avatars.com/api/?name=John+Doe",
+      "companyId": "1"
+    },
+    {
+      "id": "1768045343876",
+      "fullName": "Joseph Kasereka Bihamba",
+      "email": "josephbihamba25@gmail.com",
+      "companyId": "1768045343876-c",
+      "sector": "tech solution",
+      "avatar": ""
+    },
+    {
+      "id": "1768045469772",
+      "fullName": "Joseph Kasereka Bihamba",
+      "email": "josephbihamba25@gmail.com",
+      "companyId": "1768045469772-c",
+      "avatar": ""
+    },
+    {
+      "id": "1768045587439",
+      "fullName": "bihamba",
+      "email": "bihamba@gmail.com",
+      "companyId": "1768045587439-c",
+      "avatar": ""
+    },
+    {
+      "id": "1768045963000",
+      "fullName": "jean",
+      "email": "jean@gmail.com",
+      "companyId": "1768045963000-c",
+      "avatar": ""
     }
-]
+  ]
 }

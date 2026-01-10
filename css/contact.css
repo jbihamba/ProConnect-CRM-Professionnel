@@ -368,10 +368,13 @@ body{
     font-size: 16px;
     margin-right: 8px;
 }
-.contact-actions button:hover{
-    color: #0d6efd;
-}
 
+.edit-btn:hover{
+    color: #198754;
+}
+.delete-btn:hover{
+    color: #dc3545;
+}
 
 
 
