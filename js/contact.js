@@ -76,54 +76,80 @@ function escapeHtml(str){
         errors
     };
 }
-
-// Fonction pour enregistrer un nouveau contact
+// Fonction asynchrone pour sauvegarder un nouveau contact
 async function saveContact() {
-    // Créer un nouvel ID unique pour contact et company
+    // Génère des IDs uniques pour le contact et la company
     const contactId = Date.now().toString(); 
-    const companyId = Date.now().toString() + "-c"; // différent pour company
-
-        const companyData = {
+    const companyId = Date.now().toString() + "-c";
+    // Crée l'objet company à envoyer à l'API
+    const companyData = {
         id: companyId,
         name: contactCompany.value.trim(),
         sectors: contactCompanySector.value.trim()
     };
-        // Récupération des valeurs du formulaire
+// Récupère le fichier choisi dans l'input type="file" pour l'avatar
+    const avatarFile = contactAvatar.files[0];
+
+    // Fonction interne pour envoyer le contact avec un avatar déjà prêt (Base64 ou URL)
+    const sendContact = async (avatarValue) => {
+         // Création de l'objet contact à envoyer à l'API
         const newContact = {
             id: contactId,
             fullName: contactFullName.value.trim(),
             email: contactEmail.value.trim(),
-            companyId:companyId,
-            avatar: contactAvatar.value.trim()
+            companyId: companyId,
+            avatar: avatarValue
         };
+
         try {
-            // Envoi de la requête POST à l’API
-             await fetch(apiUrlCompany, {
+             // Envoie les données de la company à l'API
+            await fetch(apiUrlCompany, {
+                 // Méthode POST pour création
                 method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
+                 // Type JSON
+                headers: {"Content-Type": "application/json"},
+                // Convertir l'objet company en JSON
                 body: JSON.stringify(companyData)
             });
-            const response = await fetch(apiUrlContact, {
+
+           // Envoie les données du contact à l'API
+            await fetch(apiUrlContact, {
                 method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
+                headers: {"Content-Type": "application/json"},
                 body: JSON.stringify(newContact)
             });
-            if (response.ok) {
-                // Fermeture du modal après l'enregistrement
-                toggleModal(false);
-                // Actualisation de la liste des contacts
-                fetchContacts();
-            } else {
-                console.error("Error saving contact");
-            }
-        } catch (error) {
-            console.error("Error saving contact :", error);
+
+            // Ferme la fenêtre modale après l'enregistrement
+            toggleModal(false);
+             // Recharge la liste des contacts affichée dans le tableau
+            fetchContacts();
+             // Réinitialise le formulaire pour effacer les champs
+            document.getElementById("contact-form").reset();
+        } catch (err) {
+             // Affiche une erreur en console si l'envoi échoue
+            console.error("Error saving contact:", err);
         }
+    };
+// Vérifie si l'utilisateur a choisi un fichier avatar
+    if (avatarFile) {
+         // Création d'un FileReader pour lire le fichier en Base64
+        const reader = new FileReader();
+         // Quand la lecture du fichier est terminée
+        reader.onload = (e) => {
+             // Appelle sendContact avec la donnée Base64 de l'image
+            sendContact(e.target.result); // Base64
+        };
+        // Commence la lecture du fichier en tant que DataURL (Base64)
+        reader.readAsDataURL(avatarFile);
+    } else {
+         // Si aucun fichier n'est choisi, génère un avatar avec les initiales via ui-avatars.com
+        const fullName = contactFullName.value.trim();
+        const avatarUrl = `https://ui-avatars.com/api/?name=${encodeURIComponent(fullName)}`;
+            // Appelle sendContact avec l'URL générée
+        sendContact(avatarUrl);
     }
+}
+
 // Événement de clic sur le bouton d’enregistrement du contact
 saveContactBtn.addEventListener("click", () => {
      // Valide le formulaire et récupère les erreurs éventuelles
