@@ -28,12 +28,52 @@ addContactBtn.addEventListener("click", () => toggleModal(true));
 closeContactModalBtn.addEventListener("click", () => toggleModal(false));
 
 //Fonction pour sécuriser le texte et éviter injection HTML
-function escapeHtml(){
+function escapeHtml(str){
      return str.replace(/&/g, "&amp;")
               .replace(/</g, "&lt;")
               .replace(/>/g, "&gt;");
 }
-  
+// Fonction pour valider les données du formulaire de contact
+  function validateContactForm() {
+    const errors = [];
+
+    const fullName = contactFullName.value.trim();
+    const email = contactEmail.value.trim();
+    const company = contactCompany.value.trim();
+    const sector = contactCompanySector.value.trim();
+
+    // Validation du nom
+    if (!fullName) {
+        errors.push("The  name is required.");
+    } else if (fullName.length < 2) {
+        errors.push("The name must contain at least 2 characters.");
+    }
+
+    // Validation de l'email
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!email) {
+        errors.push("Email is required.");
+    } else if (!emailRegex.test(email)) {
+        errors.push("The email format is invalid.");
+    }
+
+    // Validation de l'entreprise (optionnelle mais limitée)
+    if (company && company.length > 50) {
+        errors.push("The company name is too long.");
+    }
+
+    // Validation du secteur
+    if (!sector) {
+        errors.push("The sector is required.");
+    }
+
+    // Résultat final
+    return {
+        isValid: errors.length === 0,
+        errors
+    };
+}
+
 // Fonction pour enregistrer un nouveau contact
 async function saveContact() {
         // Récupération des valeurs du formulaire
