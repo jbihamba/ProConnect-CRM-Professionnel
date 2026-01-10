@@ -230,6 +230,29 @@ async function fetchContacts() {
                         ` ;
             // Ajoute la ligne au tableau des contacts
         contactsList.appendChild(contactItem);
+
+        // Sélectionne le bouton delete dans cette ligne
+        const deleteBtn = contactItem.querySelector(".delete-btn");
+
+        // Ajoute un événement clic pour supprimer le contact
+        deleteBtn.addEventListener("click", async () => {
+            try {
+                // Envoie une requête DELETE à l'API pour ce contact
+                const response = await fetch(`${apiUrlContact}/${contact.id}`, {
+                    method: "DELETE"
+                });
+
+                if (response.ok) {
+                    // Supprime la ligne du tableau immédiatement
+                    contactItem.remove();
+                    alert(`Contact ${contact.fullName} successfully deleted`);
+                } else {
+                    console.error("Error deleting contact");
+                }
+            } catch (error) {
+                console.error("Network error during deletion :", error);
+            }
+        });
     });
 }              
 // Appel initial pour charger les contacts au démarrage
