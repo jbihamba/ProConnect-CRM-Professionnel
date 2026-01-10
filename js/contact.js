@@ -39,22 +39,28 @@ function escapeHtml(str){
 
 // Fonction pour valider les données du formulaire de contact
   function validateContactForm() {
+    // Tableau pour stocker les messages d'erreur
     const errors = [];
+    // Récupère les valeurs des champs du formulaire
     const fullName = contactFullName.value.trim();
     const email = contactEmail.value.trim();
     const company = contactCompany.value.trim();
     const sector = contactCompanySector.value.trim();
 
-    // Validation du nom
+    // Validation du nom complet
     if (!fullName) {
+        // Nom vide
         errors.push("The  name is required.");
     } else if (fullName.length < 2) {
+            // Nom trop court
         errors.push("The name must contain at least 2 characters.");
     }
 
     // Validation de l'email
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    // Vérifie si l'email est vide ou invalide
     if (!email) {
+        // Email vide
         errors.push("Email is required.");
     } else if (!emailRegex.test(email)) {
         errors.push("The email format is invalid.");
