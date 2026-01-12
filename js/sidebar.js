@@ -20,23 +20,27 @@ const overlay = document.getElementById("sidebar-overlay");
 const userId = localStorage.getItem("id")
 
 // Attendre que le DOM soit entièrement chargé
-document.addEventListener("DOMContentLoaded", async () => {
+ async function loadUserInfo () {
   try {
     // Vérifie que l'userId existe avant de fetch
-    if (!userId) throw new Error("No user ID found in localStorage");
+    if (!userId) {
+      window.location.href = "index.html";
+      return;
+    }
 
     // Requête fetch pour récupérer les informations de l'utilisateur
-    const response = await fetch(`${apiUrl}/${userId}`);
-
+    const response = await fetch(`${apiUrl}?id=${userId}`);
+    console.log("Fetch response status:", response.status);
+    
     // Vérifie si la réponse est correcte
     if (!response.ok) throw new Error("Failed to fetch user data");
 
     // Conversion de la réponse en JSON
     const user = await response.json();
-
+    const data = user[0];
     // Affichage des informations utilisateur dans le DOM
-    if(userNameElement) userNameElement.textContent = user.name;
-    if(userEmailElement) userEmailElement.textContent = user.email;
+    if(userNameElement) userNameElement.textContent = data?.name || "Unknown";
+    if(userEmailElement) userEmailElement.textContent = data?.email || "Unknown";
 
   } catch (error) {
     // En cas d'erreur (réseau, ID manquant...), afficher un fallback
@@ -44,8 +48,10 @@ document.addEventListener("DOMContentLoaded", async () => {
     userNameElement.textContent = "Unknown";
     userEmailElement.textContent = "Unknown";
   }
-});
+};
 
+// initial
+loadUserInfo ();
 
 // Toggle sidebar visibility
 sidebarToggleBtn.addEventListener("click", () => {
