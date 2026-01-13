@@ -9,6 +9,13 @@
       "email": "admin@gmail.com",
       "username": "admin",
       "password": "12345"
+    },
+    {
+      "id": "e456",
+      "name": "admin",
+      "email": "admin1@gmail.com",
+      "username": "admin1",
+      "password": "12345"
     }
   ],
   "company": [
@@ -111,22 +118,66 @@
       "id": "3b8f",
       "name": "tech solution",
       "sectors": "tech solution"
+    },
+    {
+      "id": "b6d1",
+      "name": "tech solution",
+      "sectors": "tech solution"
+    },
+    {
+      "id": "23e1",
+      "name": "tech solution",
+      "sectors": "tech solution"
+    },
+    {
+      "id": "b786",
+      "name": "tech solution",
+      "sectors": "tech solution"
+    },
+    {
+      "name": "kadea",
+      "sectors": "education",
+      "id": "1560"
+    },
+    {
+      "id": "b928",
+      "name": "tech solution",
+      "sectors": "tech solution"
+    },
+    {
+      "id": "138c",
+      "name": "access",
+      "sectors": "bank"
     }
   ],
   "contact": [
     {
-      "fullName": "Joseph bihamba",
-      "email": "josephbihamba25@gmail.com",
-      "avatar": "https://ui-avatars.com/api/?name=Joseph%20bihamba",
-      "companyId": "1768055224160-c",
-      "id": "1768055224160"
+      "id": "c089",
+      "fullName": "Kasereka  Bihamba",
+      "email": "hamba25@gmail.com",
+      "avatar": "https://ui-avatars.com/api/?name=Kasereka%20%20Bihamba",
+      "companyId": "b786"
     },
     {
       "fullName": "Joseph Kasereka Bihamba",
       "email": "josephbihamba25@gmail.com",
       "avatar": "https://ui-avatars.com/api/?name=Joseph%20Kasereka%20Bihamba",
-      "companyId": "adea",
-      "id": "6b8f"
+      "companyId": "1560",
+      "id": "d662"
+    },
+    {
+      "id": "e20c",
+      "fullName": "john doe",
+      "email": "johndoe@gmail.com",
+      "avatar": "https://ui-avatars.com/api/?name=john%20doe",
+      "companyId": "b928"
+    },
+    {
+      "id": "4c18",
+      "fullName": "billy paul bihamba",
+      "email": "billy@gmail.com",
+      "avatar": "https://ui-avatars.com/api/?name=billy%20paul%20bihamba",
+      "companyId": "138c"
     }
   ]
 }

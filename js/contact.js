@@ -215,7 +215,10 @@ saveContactBtn.addEventListener("click", () => {
         erreurMessage.style.color = "red";
     }
 });
-
+// Stocker les contacts en mémoire
+let allContacts = [];
+// Stocker les componies en memoire
+let allCompanies = [];
 // Fonction asynchrone pour récupérer et afficher la liste des contacts
 async function fetchContacts() {
     
@@ -226,8 +229,15 @@ async function fetchContacts() {
         // Vérifie si la réponse est OK (code 200)
         if (response.ok) {
             const contacts = await response.json();
-            // Fonction pour afficher les contacts dans l’interface utilisateur
-            displayContacts(contacts);
+            // stockage global
+             allContacts = contacts; 
+
+              const responseCompanies = await fetch(apiUrlCompany);
+             if (!responseCompanies.ok) throw new Error("Erreur lors de la récupération des companies");
+
+              allCompanies = await responseCompanies.json();
+            // Fonction pour afficher les contacts dans l’interface utilisateur(// affichage initial)
+            displayContacts(allContacts);
         } else {
              // Affiche une erreur si la récupération échoue
             console.error("Error fetching contacts");
@@ -237,6 +247,63 @@ async function fetchContacts() {
         console.error("Error fetching contacts :", error);
     }
 }
+// Variable pour gérer le délai entre les frappes 
+let searchTimeout;
+
+// Fonction pour rechercher les contacts en mémoire
+function searchContacts() {
+   // Vérifie si les données (contacts et companies) sont chargées
+  // si non, quitte la fonction pour éviter les erreurs
+  if (!allContacts || !allCompanies) return;
+
+ // Annule le timer précédent pour éviter de lancer plusieurs recherches trop rapidement
+  clearTimeout(searchTimeout);
+ // Définit un nouveau timer pour exécuter la recherche après un petit délai
+  searchTimeout = setTimeout(() => {
+    try {
+        // Récupère la valeur de l'input, convertit en minuscules et supprime les espaces
+      const query = document.getElementById("search-input").value.toLowerCase().trim();
+        // Sélectionne l'élément HTML où le message d'erreur sera affiché
+      const searchErrorMessage = document.getElementById("search-error-message");
+          // Si l'input est vide, afficher tous les contacts et effacer le message d'erreur
+      if (query === "") {
+        displayContacts(allContacts);
+        if (searchErrorMessage) searchErrorMessage.innerHTML = "";
+         // quitte la fonction pour ne pas continuer la recherche
+        return;
+      }
+       // Filtre les contacts selon le texte de recherche
+      const filteredContacts = allContacts.filter(contact => {
+        // Trouve la company associée à ce contact via son ID
+        const company = allCompanies.find(c => c.id === contact.companyId);
+        return (
+            // Retourne true si le nom, l'email, le nom de la company ou le secteur contiennent la recherche
+          contact.fullName.toLowerCase().includes(query) ||
+          contact.email.toLowerCase().includes(query) ||
+          (company?.name.toLowerCase().includes(query)) ||
+          (company?.sectors.toLowerCase().includes(query))
+        );
+      });
+       // Si aucun contact ne correspond, affiche un message d'erreur
+      if (filteredContacts.length === 0) {
+        if (searchErrorMessage) searchErrorMessage.innerHTML = `<p style="color:red">User not found</p>`;
+      } else {
+        // Sinon, efface le message d'erreur précédent et affiche les contacts filtrés
+        if (searchErrorMessage) searchErrorMessage.innerHTML = "";
+        displayContacts(filteredContacts);
+      }
+
+    } catch (error) {
+        // Capture et affiche toute erreur pendant la recherche
+      console.error("Erreur lors de la recherche :", error);
+      alert("Une erreur est survenue lors de la recherche. Vérifiez la console.");
+    }
+  }, 300); // délai de 300ms après la dernière frappe
+}
+
+// Événement sur l'input de recherche
+document.getElementById("search-input").addEventListener("input", searchContacts);
+
 
 // Fonction asynchrone pour afficher les contacts dans le tableau
  async function displayContacts(contacts) {
