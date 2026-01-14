@@ -378,115 +378,134 @@ function searchContacts() {
 // Événement sur l'input de recherche
 document.getElementById("search-input").addEventListener("input", searchContacts);
 
+// Récupère une company par ID
+function getCompanyById(companies, companyId) {
+     //Parcourt le tableau des companies et retourne celle dont l'id correspond
+  return companies.find(c => c.id === companyId) || null;
+}
 
-// Fonction asynchrone pour afficher les contacts dans le tableau
- async function displayContacts(contacts) {
-  // Récupère toutes les companies depuis l'API
-   const companies = allCompanies;
+// Crée une ligne (<tr>) pour un contact
+function createContactRow(contact, company) {
+    // Crée un élément HTML <tr> (ligne de tableau)
+  const tr = document.createElement("tr");
+    // Ajoute une classe CSS à la ligne pour le style
+  tr.className = "contact-item";
+ // Définit le contenu HTML de la ligne avec les données du contact
+  tr.innerHTML = `
+    <td><input type="checkbox" class="contact-checkbox"></td>
+    <td><img src="${contact.avatar}" alt="" class="contact-avatar"></td>
+    <td>${escapeHtml(contact.fullName)}</td>
+    <td>${escapeHtml(contact.email)}</td>
+    <td>${escapeHtml(company?.name || "")}</td>
+    <td>${escapeHtml(company?.sectors || "")}</td>
+    <td class="contact-actions">
+      <button class="action-btn edit-btn" title="Update">
+        <i class="bi bi-pen-fill"></i>
+      </button>
+      <button class="action-btn delete-btn" title="Delete">
+        <i class="bi bi-trash-fill"></i>
+      </button>
+    </td>
+  `;
+     // Retourne la ligne <tr> complètement construite
+  return tr;
+}
 
+// Gestion du bouton "Edit"
+function handleEdit(contact, rowElement) {
+    // Sélectionne le bouton "edit" dans la ligne du contact
+  const editBtn = rowElement.querySelector(".edit-btn");
+ // Ajoute un écouteur d'événement au clic sur le bouton "edit"
+  editBtn.addEventListener("click", async () => {
+    try {
+          // Envoie une requête GET pour récupérer le contact depuis l'API
+      const response = await fetch(`${apiUrlContact}/${contact.id}`);
+        // Vérifie si la réponse HTTP est valide
+      if (!response.ok) {
+        throw new Error("Contact not found");
+      }
+       // Convertit la réponse en objet JavaScript
+      const contactData = await response.json();
+      // Préremplit le champ "Nom complet" du formulaire
+      contactFullName.value = contactData.fullName;
+       // Préremplit le champ "Email" du formulaire
+      contactEmail.value = contactData.email;
+      // Récupère la company liée au contact
+      const companyResponse = await fetch(
+        `${apiUrlCompany}/${contactData.companyId}`
+      );
+        // Vérifie si la récupération de la company a réussi
+      if (companyResponse.ok) {
+         // Convertit la réponse company en objet JavaScript
+        const companyData = await companyResponse.json();
+        // Préremplit le champ "Nom de la company"
+        contactCompany.value = companyData.name;
+          // Préremplit le champ "Secteur de la company"
+        contactCompanySector.value = companyData.sectors;
+      }
+       // Stocke l'ID du contact en cours d'édition
+      editingContactId = contactData.id;
+       // Stocke l'ID de la company associée
+      editingCompanyId = contactData.companyId;
+       // Ouvre la fenêtre modale d'édition
+      toggleModal(true);
+    } catch (error) {
+        // Affiche l'erreur en cas de problème réseau ou logique
+      console.error("Error fetching contact for edit:", error);
+    }
+  });
+}
 
-    // Récupère l'élément tbody du tableau des contacts
-    const contactsList = document.getElementById("contacts-table-body");
-      // Vide le tableau avant de le remplir
-    contactsList.innerHTML = ""; 
-// Parcourt chaque contact et crée une ligne dans le tableau
-    contacts.forEach(contact => {
-         // Cherche la company correspondante via l'ID
-        const company = companies.find(c => c.id === contact.companyId);
-         // Si la company existe, récupère son nom et son secteur
-        const companyName = company ? company.name : "";
-        const companySector = company ? company.sectors : "";
-// Crée une nouvelle ligne (<tr>) pour le tableau
-        const contactItem = document.createElement("tr");
-        contactItem.className = "contact-item";
-         // Remplit la ligne avec les données du contact
-        contactItem.innerHTML = `
-            
-                          <td><input type="checkbox" class="contact-checkbox"></td>
-                          <td><img src="${contact.avatar}" alt="" class="contact-avatar"></td>
-                          <td>${escapeHtml(contact.fullName)}</td>
-                          <td>${escapeHtml(contact.email)}</td>
-                          <td>${escapeHtml(companyName)}</td>
-                          <td>${escapeHtml(companySector)}</td>
-                           <td class="contact-actions">
-                            <button class="action-btn edit-btn" title="Update"><i class="bi bi-pen-fill"></i></button>
-                            <button class="action-btn delete-btn" title="Delete"><i class="bi bi-trash-fill"></i></button>
-                          </td>
-                        ` ;
-            // Ajoute la ligne au tableau des contacts
-        contactsList.appendChild(contactItem);
+// Gestion du bouton "Delete"
+function handleDelete(contact, rowElement) {
+     // Sélectionne le bouton "delete" dans la ligne du contact
+  const deleteBtn = rowElement.querySelector(".delete-btn");
+     // Ajoute un écouteur d'événement au clic sur le bouton "delete"
+  deleteBtn.addEventListener("click", async () => {
+    try {
+          // Envoie une requête DELETE à l'API pour supprimer le contact
+      const response = await fetch(`${apiUrlContact}/${contact.id}`, {
+        method: "DELETE"
+      });
+        // Vérifie si la suppression a réussi
+      if (response.ok) {
+         // Supprime immédiatement la ligne du tableau
+        rowElement.remove();
+         // Affiche un message de confirmation
+        alert(`Contact ${contact.fullName} successfully deleted`);
+      } else {
+         // Affiche une erreur si la suppression a échoué côté serveur
+        console.error("Error deleting contact");
+      }
+    } catch (error) {
+        // Affiche une erreur en cas de problème réseau
+      console.error("Network error during deletion:", error);
+    }
+  });
+}
 
-        // Sélectionne le bouton delete dans cette ligne
-        const deleteBtn = contactItem.querySelector(".delete-btn");
+// Fonction principale d’affichage
+async function displayContacts(contacts) {
+     // Récupère la liste complète des companies déjà chargées
+  const companies = allCompanies;
+  // Sélectionne le <tbody> du tableau des contacts
+  const contactsList = document.getElementById("contacts-table-body");
+     // Vide le tableau avant de le remplir à nouveau
+  contactsList.innerHTML = "";
+     // Parcourt chaque contact reçu en paramètre
+  contacts.forEach(contact => {
+    // Récupère la company associée au contact
+    const company = getCompanyById(companies, contact.companyId);
+     // Crée la ligne du tableau pour ce contact
+    const row = createContactRow(contact, company);
+     // Attache la logique d'édition à la ligne
+    handleEdit(contact, row);
+     // Attache la logique de suppression à la ligne
+    handleDelete(contact, row);
+    // Ajoute la ligne au tableau
+    contactsList.appendChild(row);
+  });
+}
 
-        // Selectionne le bouton edit dans cette ligne
-        const editBtn = contactItem.querySelector(".edit-btn");
-// Ajoute un écouteur d'événement sur le bouton "éditer"
-        editBtn.addEventListener("click", async () => {
-            try {
-                 // Envoie une requête GET pour récupérer le contact à partir de son ID
-                const response = await fetch(`${apiUrlContact}/${contact.id}`);
-                 // Vérifie si la réponse HTTP n'est pas correcte (404, 500, etc.)
-                if (!response.ok) {
-                    // Lance une erreur si le contact n'existe pas
-                    throw new Error("Contact not found");
-                }
-                 // Convertit la réponse JSON en objet JavaScript
-                const contactData = await response.json();
-
-                // Préremplit le champ "Nom complet" avec les données du contact
-                contactFullName.value = contactData.fullName;
-                 // Préremplit le champ "Email" avec les données du contact
-                contactEmail.value = contactData.email;
-
-                // Envoie une requête GET pour récupérer la company liée au contact
-                const companyResponse = await fetch(
-                    `${apiUrlCompany}/${contactData.companyId}`
-                );
-                // Vérifie si la récupération de la company a réussi
-                if (companyResponse.ok) {
-                      // Convertit la réponse company en objet JavaScript
-                    const companyData = await companyResponse.json();
-                       // Préremplit le champ "Nom de la company"
-                    contactCompany.value = companyData.name;
-                      // Préremplit le champ "Secteur de la company"
-                    contactCompanySector.value = companyData.sectors;
-                }
-
-                 // Stocke l’ID du contact en cours d’édition
-                editingContactId = contactData.id;
-                 // Stocke l’ID de la company associée au contact en cours d’édition
-                editingCompanyId = contactData.companyId;
-
-                 // Ouvre la fenêtre modale pour permettre l’édition du contact
-                toggleModal(true);
-
-            } catch (error) {
-                 // Affiche l'erreur en cas de problème lors de la récupération des données
-                console.error("Error fetching contact for edit:", error);
-            }
-        });
-
-        // Ajoute un événement clic pour supprimer le contact
-        deleteBtn.addEventListener("click", async () => {
-            try {
-                // Envoie une requête DELETE à l'API pour ce contact
-                const response = await fetch(`${apiUrlContact}/${contact.id}`, {
-                    method: "DELETE"
-                });
-
-                if (response.ok) {
-                    // Supprime la ligne du tableau immédiatement
-                    contactItem.remove();
-                    alert(`Contact ${contact.fullName} successfully deleted`);
-                } else {
-                    console.error("Error deleting contact");
-                }
-            } catch (error) {
-                console.error("Network error during deletion :", error);
-            }
-        });
-    });
-}              
-// Appel initial pour charger les contacts au démarrage
+// Chargement initial
 fetchContacts();

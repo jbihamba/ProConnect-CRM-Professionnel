@@ -130,9 +130,9 @@
       "sectors": "tech solution"
     },
     {
-      "id": "b786",
       "name": "tech solution",
-      "sectors": "tech solution"
+      "sectors": "tech solutio",
+      "id": "b786"
     },
     {
       "name": "kadea",
@@ -243,16 +243,14 @@
       "id": "e9a1",
       "name": "tech solution",
       "sectors": "tech solution"
+    },
+    {
+      "id": "3462",
+      "name": "tech solution",
+      "sectors": "tech solution"
     }
   ],
   "contact": [
-    {
-      "id": "c089",
-      "fullName": "Kasereka  Bihamba",
-      "email": "hamba25@gmail.com",
-      "avatar": "https://ui-avatars.com/api/?name=Kasereka%20%20Bihamba",
-      "companyId": "b786"
-    },
     {
       "fullName": "Joseph Kasereka Bihamba",
       "email": "josephbihamba25@gmail.com",
