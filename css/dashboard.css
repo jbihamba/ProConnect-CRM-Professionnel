@@ -255,6 +255,9 @@ body{
     padding: 16px;
     color: #6c757d;
 }
+.chart-header h4{
+    color: #000;
+}
 .chart-header label{
     font-size: 14px;
 }
