@@ -52,17 +52,18 @@ new Chart(coreCharte, {
       // Valeurs associées à chaque mois
       data: [65, 59, 80, 81, 56, 55, 40],
        // Désactive le remplissage sous la ligne
-      fill: false,
+      fill: true,
         // Couleur de la ligne
       borderColor: "#0d6efd",
+      backgroundColor: "rgba(13,110,253,0.08)",
        // Lissage de la ligne (courbure)
-      tension: 0.1
+      tension: 0.4
     }]
   },
    // Options de configuration du graphique
   options: {
       // Rend le graphique responsive
-    responsive: true
+    responsive: true,
   }
 });
 
