@@ -376,7 +376,31 @@ body{
     color: #dc3545;
 }
 
+.pagination{
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px;
+}
+.pagination button{
+    background-color:  #e7f1ff;
+    color: #0d6efd;
+    border: 1px solid #b6d4fe;
+   padding: 6px 12px;
+    border-radius: 6px;
+     cursor: pointer;
+}
 
+.pagination button:hover:not(:disabled) {
+  background-color: #d0e2ff;
+}
+
+.pagination button:disabled {
+  background-color: #f1f3f5;
+  color: #adb5bd;
+  border-color: #dee2e6;
+  cursor: not-allowed;
+}
 
 footer{
     text-align: center;

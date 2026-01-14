@@ -17,6 +17,7 @@ const contactAvatar = document.getElementById("contact-photo");
 const saveContactBtn = document.getElementById("save-contact-btn");
 
 
+
 // Gestion des événements
 // Fonction qui affiche ou cache la fenêtre modale
 function toggleModal(isOpen) {
@@ -236,8 +237,10 @@ async function fetchContacts() {
              if (!responseCompanies.ok) throw new Error("Erreur lors de la récupération des companies");
 
               allCompanies = await responseCompanies.json();
-            // Fonction pour afficher les contacts dans l’interface utilisateur(// affichage initial)
-            displayContacts(allContacts);
+            // Fonction pour afficher les contacts dans l’interface utilisateur
+             displayContacts(getPaginatedContacts(allContacts));
+            renderPagination(allContacts.length);
+
         } else {
              // Affiche une erreur si la récupération échoue
             console.error("Error fetching contacts");
@@ -247,6 +250,72 @@ async function fetchContacts() {
         console.error("Error fetching contacts :", error);
     }
 }
+// pagination varaible
+let currentPage = 1;
+const contactsPerPage = 5;
+//Fonction qui découpe les contacts pour ne retourner que ceux de la page courante
+function getPaginatedContacts(contacts) {
+    // Calcule l’index de départ en fonction de la page actuelle
+  const start = (currentPage - 1) * contactsPerPage;
+   // Calcule l’index de fin (non inclus dans slice)
+  const end = start + contactsPerPage;
+   // Retourne uniquement la portion du tableau correspondant à la page courante
+  return contacts.slice(start, end);
+}
+// Fonction qui gère l’affichage des boutons de pagination
+function renderPagination(totalContacts) {
+    // Récupère le conteneur HTML de la pagination
+  const pagination = document.getElementById("pagination");
+   // Vide le contenu pour éviter les doublons
+  pagination.innerHTML = "";
+    // Calcule le nombre total de pages
+  const totalPages = Math.ceil(totalContacts / contactsPerPage);
+
+  // Crée le bouton "précédent"
+  const prevBtn = document.createElement("button");
+  // Définit le texte du bouton
+  prevBtn.textContent = "<";
+  // Désactive le bouton si on est déjà sur la première page
+  prevBtn.disabled = currentPage === 1;
+ // Ajoute un événement au clic sur le bouton PREV
+  prevBtn.addEventListener("click", () => {
+     // Vérifie qu’on n’est pas déjà sur la première page
+    if (currentPage > 1) {
+         // Décrémente la page courante
+      currentPage--;
+       // Réaffiche les contacts correspondant à la nouvelle page
+      displayContacts(getPaginatedContacts(allContacts));
+       // Met à jour l’état des boutons (activé/désactivé)
+      renderPagination(totalContacts);
+    }
+  });
+
+    // Crée le bouton "suivant"
+  const nextBtn = document.createElement("button");
+   // Définit le texte du bouton
+  nextBtn.textContent = ">";
+   // Désactive le bouton si on est déjà sur la dernière page
+  nextBtn.disabled = currentPage === totalPages;
+// Ajoute un événement au clic sur le bouton NEXT
+  nextBtn.addEventListener("click", () => {
+    // Vérifie qu’on n’est pas déjà sur la dernière page
+    if (currentPage < totalPages) {
+        // Incrémente la page courante
+      currentPage++;
+       // Réaffiche les contacts correspondant à la nouvelle page
+      displayContacts(getPaginatedContacts(allContacts));
+      // Met à jour l’état des boutons
+      renderPagination(totalContacts);
+    }
+  });
+
+   // Ajoute le bouton PREV dans le DOM
+  pagination.appendChild(prevBtn);
+  pagination.appendChild(nextBtn);
+}
+
+
+
 // Variable pour gérer le délai entre les frappes 
 let searchTimeout;
 
@@ -267,7 +336,10 @@ function searchContacts() {
       const searchErrorMessage = document.getElementById("search-error-message");
           // Si l'input est vide, afficher tous les contacts et effacer le message d'erreur
       if (query === "") {
-        displayContacts(allContacts);
+        currentPage = 1;
+       displayContacts(getPaginatedContacts(allContacts));
+        renderPagination(allContacts.length);
+
         if (searchErrorMessage) searchErrorMessage.innerHTML = "";
          // quitte la fonction pour ne pas continuer la recherche
         return;
@@ -290,7 +362,9 @@ function searchContacts() {
       } else {
         // Sinon, efface le message d'erreur précédent et affiche les contacts filtrés
         if (searchErrorMessage) searchErrorMessage.innerHTML = "";
-        displayContacts(filteredContacts);
+        currentPage = 1;
+        displayContacts(getPaginatedContacts(filteredContacts));
+        renderPagination(filteredContacts.length);
       }
 
     } catch (error) {
@@ -308,7 +382,8 @@ document.getElementById("search-input").addEventListener("input", searchContacts
 // Fonction asynchrone pour afficher les contacts dans le tableau
  async function displayContacts(contacts) {
   // Récupère toutes les companies depuis l'API
-    const companies = await fetch(apiUrlCompany).then(res => res.json());
+   const companies = allCompanies;
+
 
     // Récupère l'élément tbody du tableau des contacts
     const contactsList = document.getElementById("contacts-table-body");

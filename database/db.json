@@ -148,6 +148,101 @@
       "id": "138c",
       "name": "access",
       "sectors": "bank"
+    },
+    {
+      "id": "4925",
+      "name": "tech solution",
+      "sectors": "tech solution"
+    },
+    {
+      "id": "b88c",
+      "name": "tech solution",
+      "sectors": "tech solution"
+    },
+    {
+      "id": "57b3",
+      "name": "tech solution",
+      "sectors": "tech solution"
+    },
+    {
+      "id": "6998",
+      "name": "tech solution",
+      "sectors": "tech solution"
+    },
+    {
+      "id": "97d1",
+      "name": "tech solution",
+      "sectors": "tech solution"
+    },
+    {
+      "id": "b94d",
+      "name": "goma",
+      "sectors": "goma"
+    },
+    {
+      "id": "b709",
+      "name": "tech solution",
+      "sectors": "tech solution"
+    },
+    {
+      "id": "bd1a",
+      "name": "tech solution",
+      "sectors": "tech solution"
+    },
+    {
+      "id": "f0b4",
+      "name": "tech solution",
+      "sectors": "tech solution"
+    },
+    {
+      "id": "80ce",
+      "name": "tech solution",
+      "sectors": "tech solution"
+    },
+    {
+      "id": "b83e",
+      "name": "tech solution",
+      "sectors": "tech solution"
+    },
+    {
+      "id": "537f",
+      "name": "tech solution",
+      "sectors": "tech solution"
+    },
+    {
+      "id": "80f7",
+      "name": "tech solution",
+      "sectors": "tech solution"
+    },
+    {
+      "id": "89b9",
+      "name": "tech solution",
+      "sectors": "tech solution"
+    },
+    {
+      "id": "809f",
+      "name": "tech solution",
+      "sectors": "tech solution"
+    },
+    {
+      "id": "9f2f",
+      "name": "tech solution",
+      "sectors": "tech solution"
+    },
+    {
+      "id": "b3bf",
+      "name": "tech solution",
+      "sectors": "tech solution"
+    },
+    {
+      "id": "09f8",
+      "name": "kinshasa",
+      "sectors": "gigital"
+    },
+    {
+      "id": "e9a1",
+      "name": "tech solution",
+      "sectors": "tech solution"
     }
   ],
   "contact": [
@@ -178,6 +273,20 @@
       "email": "billy@gmail.com",
       "avatar": "https://ui-avatars.com/api/?name=billy%20paul%20bihamba",
       "companyId": "138c"
+    },
+    {
+      "id": "1251",
+      "fullName": "fidel",
+      "email": "fidel@gmail.com",
+      "avatar": "https://ui-avatars.com/api/?name=fidel",
+      "companyId": "b94d"
+    },
+    {
+      "id": "7dfd",
+      "fullName": "Kasereka Joseph Bihamba Joseph",
+      "email": "josephbihamba25@gmail.com",
+      "avatar": "https://ui-avatars.com/api/?name=Kasereka%20Joseph%20Bihamba%20Joseph",
+      "companyId": "80f7"
     }
   ]
 }
