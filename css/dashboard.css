@@ -403,10 +403,14 @@ body{
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
-.chart-header p{
+.show-filter{
     color: #6c757d;
 }
-.chart-header span{
+.filter-option{
+    background-color: #fff;
+    border: none;
+    outline: none;
+    font-weight: 600;
     color: #0d6efd;
     cursor: pointer;
 }
