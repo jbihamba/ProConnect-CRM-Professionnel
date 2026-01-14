@@ -220,15 +220,11 @@ body{
     font-size: 20px;
     font-weight: 300;
 }
-.dashboard-tasks-progress-header p{
+.dashboard-tasks-progress-header label{
     font-size: 14px;
     color: #6c757d;
 }
-.dashboard-tasks-progress-header span{
-    font-size: 16px;
-    color: #0d6efd;
-    cursor: pointer;
-}
+
 .dashboard-tasks-progress-bar{
     width: 100%;
     background-color:  #c3e6cb;
@@ -257,8 +253,14 @@ body{
     margin-bottom: 20px;
     border-bottom: 1px solid #dee2e6;
     padding: 16px;
+    color: #6c757d;
 }
-
+.chart-header h4{
+    color: #000;
+}
+.chart-header label{
+    font-size: 14px;
+}
 
 .full-date {
   font-size: 18px;
@@ -403,10 +405,12 @@ body{
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
-.chart-header p{
-    color: #6c757d;
-}
-.chart-header span{
+
+.filter-option{
+    background-color: #fff;
+    border: none;
+    outline: none;
+    font-weight: 600;
     color: #0d6efd;
     cursor: pointer;
 }
