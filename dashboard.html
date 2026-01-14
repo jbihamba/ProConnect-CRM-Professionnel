@@ -118,14 +118,14 @@
                       <div class="dashboard-tasks-progress-header">
                          
                         <h3>8 Task completed out of 10</h3>
-                       <label for="dashboardTasksFilter" class="chart-header">
-                          Show :
-                          <select id="dashboardTasksFilter" class="filter-option">
-                            <option value="all">This week</option>
-                            <option value="company">Last week</option>
-                          </select>
+                        <label for="dashboardTasksFilter">
+                            Show :
+                            <select id="dashboardTasksFilter" class="filter-option">
+                              <option value="all">This week</option>
+                              <option value="company">Last week</option>
+                            </select>
 
-                        </label>
+                          </label>
                       </div>
 
                       <div>
@@ -222,14 +222,17 @@
                 <!-- Chart.js -->
                  <section class="chart-section">
                     <div class="chart-card">
-                         <label for="filter-deal" class="chart-header">
-                          Deals :
+                         <div class="chart-header">
+                          <h4>Deals</h4>
+                          <label for="filter-deal" >
+                          Show :
                           <select id="filter-deal" class="filter-option">
                             <option value="all">This month</option>
                             <option value="company">Last month</option>
                           </select>
 
                         </label>
+                         </div>
                       
                     <canvas id="core-charte"></canvas>
                   </div>
@@ -237,7 +240,9 @@
                   <!--Chart.js-->
                   <div class="chart-cart">
                     
-                      <label for="filter-month" class="chart-header">
+                      <div class="chart-header">
+                        <h4>Task</h4>
+                        <label for="filter-month" >
                           Show :
                           <select id="filter-month" class="filter-option">
                             <option value="all">This month</option>
@@ -245,6 +250,7 @@
                           </select>
 
                         </label>
+                      </div>
                     
                     <!--  Wrapper du chart -->
                     <div class="circle-chart-wrapper">
