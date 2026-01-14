@@ -257,9 +257,7 @@ body{
     align-items: center;
     z-index: 1000;
 }
-.hidden {
-  display: none;
-}
+
 /*modal content style*/
 .contact-modal-content{
     background-color: #fff;
@@ -397,6 +395,132 @@ body{
   color: #adb5bd;
   border-color: #dee2e6;
   cursor: not-allowed;
+}
+/* Overlay */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  z-index: 1000;
+}
+
+/* Modal container */
+.modal {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 500px;
+  max-width: 95%;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.25);
+  z-index: 1000;
+  animation: modalFadeIn 0.25s ease;
+}
+
+/*Header*/
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 20px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.modal-header h2 {
+  font-size: 18px;
+  margin: 0;
+}
+
+.modal-header button {
+  background: none;
+  border: none;
+  font-size: 22px;
+  cursor: pointer;
+  line-height: 1;
+}
+
+/*Body*/
+.modal-body {
+padding: 20px;
+display: flex;
+gap: 5rem;
+
+}
+
+.contact-avatar img {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 16px;
+}
+
+.contact-info p,
+.contact-company p {
+  margin: 6px 0;
+  font-size: 14px;
+  color: #374151;
+}
+
+.contact-info strong,
+.contact-company strong {
+  color: #111827;
+}
+
+/* Footer / Actions */
+.modal-footer {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 16px 20px;
+  border-top: 1px solid #e5e7eb;
+}
+
+.btn-edit {
+  flex: 1;
+  padding: 10px;
+  background: #2563eb;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.btn-edit:hover {
+  background: #1e40af;
+}
+
+.btn-delete {
+  flex: 1;
+  padding: 10px;
+  background: #dc2626;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.btn-delete:hover {
+  background: #991b1b;
+}
+
+/*  Utilities*/
+.hidden {
+  display: none;
+}
+
+/* Animation */
+@keyframes modalFadeIn {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -55%);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%);
+  }
 }
 
 footer{

@@ -393,7 +393,7 @@ function createContactRow(contact, company) {
   tr.innerHTML = `
     <td><input type="checkbox" class="contact-checkbox"></td>
     <td><img src="${contact.avatar}" alt="" class="contact-avatar"></td>
-    <td>${escapeHtml(contact.fullName)}</td>
+    <td >${escapeHtml(contact.fullName)}</td>
     <td>${escapeHtml(contact.email)}</td>
     <td>${escapeHtml(company?.name || "")}</td>
     <td>${escapeHtml(company?.sectors || "")}</td>
@@ -406,8 +406,14 @@ function createContactRow(contact, company) {
       </button>
     </td>
   `;
+        tr.addEventListener("click", (e) => {
+        if (e.target.closest(".contact-actions")) return;
+        injectContactDetails(contact.id);
+        });
+        
      // Retourne la ligne <tr> complètement construite
   return tr;
+
 }
 
 // Gestion du bouton "Edit"
@@ -554,6 +560,65 @@ filterMain.addEventListener("change", () => {
   displayContacts(getPaginatedContacts(filteredContacts));
    // Met à jour l'affichage de la pagination
   renderPagination(filteredContacts.length);
+});
+
+// On attend que tout le DOM soit complètement chargé avant d'exécuter le script
+document.addEventListener("DOMContentLoaded", () => {
+      // Récupère l'élément de la modal des détails du contact
+  const contactDetailsModal = document.getElementById("contact-details-modal");
+  const overlay = document.getElementById("contact-modal-overlay");
+  const closeBtn = document.getElementById("close-modal-btn");
+
+// Fonction pour ouvrir la modal des détails
+  function openDetailsModal() {
+     // Retire la classe "hidden" si la modal existe
+    if (contactDetailsModal) contactDetailsModal.classList.remove("hidden");
+      // Retire la classe "hidden" si l'overlay existe
+    if (overlay) overlay.classList.remove("hidden");
+  }
+
+
+  // Fonction pour fermer la modal des détails
+  function closeDetailsModal() {
+      // Ajoute la classe "hidden" si la modal existe
+    if (contactDetailsModal) contactDetailsModal.classList.add("hidden");
+      // Ajoute la classe "hidden" si l'overlay existe
+    if (overlay) overlay.classList.add("hidden");
+  }
+// Si le bouton de fermeture existe, on ajoute un écouteur au clic pour fermer la modal
+  if (closeBtn) closeBtn.addEventListener("click", closeDetailsModal);
+    // Si l'overlay existe, on ajoute un écouteur au clic pour fermer la modal
+  if (overlay) overlay.addEventListener("click", closeDetailsModal);
+
+  // On définit la fonction injectContactDetails sur l'objet global "window"
+  // pour qu'elle soit accessible depuis d'autres parties du code
+  window.injectContactDetails = function(contactId) {
+     // Cherche le contact dans le tableau allContacts correspondant à l'ID
+    const contact = allContacts.find(c => c.id === contactId);
+     // Si aucun contact n'est trouvé, on quitte la fonction
+    if (!contact) return;
+     // Cherche la company associée au contact via son companyId
+    const company = allCompanies.find(co => co.id === contact.companyId);
+    // Récupère les éléments du DOM où on affichera les détails
+    const avatarEl = document.getElementById("modal-avatar");
+    const nameEl = document.getElementById("modal-fullname");
+    const emailEl = document.getElementById("modal-email");
+    const companyEl = document.getElementById("modal-company");
+    const sectorEl = document.getElementById("modal-sector");
+
+    // Met à jour l'avatar (ou affiche un avatar par défaut si absent)
+    if (avatarEl) avatarEl.src = contact.avatar || "https://ui-avatars.com/api/?name=User";
+    // Met à jour le nom complet du contact
+    if (nameEl) nameEl.textContent = contact.fullName || "-";
+    // Met à jour l'email du contact
+    if (emailEl) emailEl.textContent = contact.email || "-";
+     // Met à jour le nom de la company (ou "—" si absent)
+    if (companyEl) companyEl.textContent = company?.name || "—";
+    if (sectorEl) sectorEl.textContent = company?.sectors || "—";
+      // Ouvre la modal après avoir injecté toutes les données
+    openDetailsModal();
+  };
+  
 });
 
 // Chargement initial

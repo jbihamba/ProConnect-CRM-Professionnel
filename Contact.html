@@ -158,7 +158,50 @@
                     </tbody>
                   </table>
                   <div id="pagination" class="pagination"></div>
-  
+                  <!-- Overlay -->
+                  <div id="contact-modal-overlay" class="modal-overlay hidden"></div>
+
+                  <!-- Modal -->
+                  <div id="contact-details-modal" class="modal hidden">
+
+                    <!-- Header -->
+                    <div class="modal-header">
+                      <h2>Contact Details</h2>
+                      <button id="close-modal-btn" aria-label="Close">&times;</button>
+                    </div>
+
+                    <!-- Body -->
+                    <div class="modal-body">
+
+                      <!-- Avatar -->
+                      <div class="contact-avatar">
+                        <img id="modal-avatar" src="" alt="Contact avatar">
+                      </div>
+
+                      <!-- Infos personnelles -->
+                      <div>
+                        <div class="contact-info">
+                        <p><strong>Full Name:</strong> <span id="modal-fullname"></span></p>
+                        <p><strong>Email:</strong> <span id="modal-email"></span></p>
+                      </div>
+
+                      <!-- Company -->
+                      <div class="contact-company">
+                        <p><strong>Company:</strong> <span id="modal-company"></span></p>
+                        <p><strong>Sector:</strong> <span id="modal-sector"></span></p>
+                      </div>
+                      </div>
+
+                    </div>
+
+                    <!-- Footer / Actions -->
+                    <div class="modal-footer">
+                      <button id="edit-contact-btn" class="btn-edit">Edit</button>
+                      <button id="delete-contact-btn" class="btn-delete">Delete</button>
+                    </div>
+
+                  </div>
+
                 </section>
                      
              </main>
