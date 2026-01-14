@@ -248,6 +248,16 @@
       "id": "3462",
       "name": "tech solution",
       "sectors": "tech solution"
+    },
+    {
+      "id": "8aeb",
+      "name": "tech solution",
+      "sectors": "tech solution"
+    },
+    {
+      "id": "65a7",
+      "name": "kadea",
+      "sectors": "education"
     }
   ],
   "contact": [
@@ -280,11 +290,18 @@
       "companyId": "b94d"
     },
     {
-      "id": "7dfd",
+      "id": "c56c",
       "fullName": "Kasereka Joseph Bihamba Joseph",
       "email": "josephbihamba25@gmail.com",
       "avatar": "https://ui-avatars.com/api/?name=Kasereka%20Joseph%20Bihamba%20Joseph",
-      "companyId": "80f7"
+      "companyId": "8aeb"
+    },
+    {
+      "id": "6af1",
+      "fullName": "john peter",
+      "email": "peter@gmail.com",
+      "avatar": "https://ui-avatars.com/api/?name=john%20peter",
+      "companyId": "65a7"
     }
   ]
 }

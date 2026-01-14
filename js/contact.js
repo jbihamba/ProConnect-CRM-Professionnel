@@ -240,7 +240,6 @@ async function fetchContacts() {
             // Fonction pour afficher les contacts dans l’interface utilisateur
              displayContacts(getPaginatedContacts(allContacts));
             renderPagination(allContacts.length);
-
         } else {
              // Affiche une erreur si la récupération échoue
             console.error("Error fetching contacts");
@@ -506,6 +505,56 @@ async function displayContacts(contacts) {
     contactsList.appendChild(row);
   });
 }
+// On récupère l'élément <select> qui permet de filtrer les contacts
+const filterMain = document.getElementById("filter-main");
+// On ajoute un écouteur d'événement qui se déclenche quand l'utilisateur change l'option du select
+filterMain.addEventListener("change", () => {
+      // Vérifie que les listes de contacts et de companies existent et ne sont pas vides
+  if (!allContacts.length || !allCompanies.length) return;
+ // Crée un objet pour accéder rapidement aux companies via leur ID
+  const companyMap = Object.fromEntries(allCompanies.map(c => [c.id, c]));
+   // Initialisation du tableau qui contiendra les contacts filtrés
+  let filteredContacts = [];
+// Si l'utilisateur choisit "All Contacts", on affiche tous les contacts
+  if (filterMain.value === "all") {
+    filteredContacts = allContacts;
+    // Si l'utilisateur choisit "Company", on veut afficher un contact unique par company
+  } else if (filterMain.value === "company") {
+     // Crée un Set pour garder la trace des company déjà ajoutées
+    const seenCompanies = new Set();
+     // Filtre les contacts
+    filteredContacts = allContacts.filter(c => {
+         // récupère la company du contact
+      const co = companyMap[c.companyId];
+      // ignore si company manquante ou déjà vue
+      if (!co || seenCompanies.has(co.id)) return false;
+      // ajoute cette company au Set pour éviter les doublons
+      seenCompanies.add(co.id);
+      return true;
+    });
+      // Si l'utilisateur choisit "Sector", on veut afficher un contact unique par secteur
+  } else if (filterMain.value === "sector") {
+    // Crée un Set pour garder la trace des secteurs déjà ajoutés
+    const seenSectors = new Set();
+    // Filtre les contacts
+    filteredContacts = allContacts.filter(c => {
+        // récupère la company du contact
+      const co = companyMap[c.companyId];
+      // ignore si company manquante, secteur vide ou déjà ajouté
+      if (!co || !co.sectors || seenSectors.has(co.sectors)) return false;
+      // ajoute ce secteur au Set pour éviter les doublons
+      seenSectors.add(co.sectors);
+       // garde ce contact
+      return true;
+    });
+  }
+ // Réinitialise la page courante pour la pagination
+  currentPage = 1;
+  // Affiche les contacts filtrés avec pagination
+  displayContacts(getPaginatedContacts(filteredContacts));
+   // Met à jour l'affichage de la pagination
+  renderPagination(filteredContacts.length);
+});
 
 // Chargement initial
 fetchContacts();
