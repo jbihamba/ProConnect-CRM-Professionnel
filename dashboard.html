@@ -118,11 +118,11 @@
                       <div class="dashboard-tasks-progress-header">
                          
                         <h3>8 Task completed out of 10</h3>
-                       <label for="dashboardTasksFilter" class="show-filter">
+                       <label for="dashboardTasksFilter" class="chart-header">
                           Show :
                           <select id="dashboardTasksFilter" class="filter-option">
-                            <option value="all">This month</option>
-                            <option value="company">Last month</option>
+                            <option value="all">This week</option>
+                            <option value="company">Last week</option>
                           </select>
 
                         </label>
@@ -222,8 +222,7 @@
                 <!-- Chart.js -->
                  <section class="chart-section">
                     <div class="chart-card">
-                      <div class="chart-header">
-                         <label for="filter-deal" class="show-filter">
+                         <label for="filter-deal" class="chart-header">
                           Deals :
                           <select id="filter-deal" class="filter-option">
                             <option value="all">This month</option>
@@ -231,14 +230,14 @@
                           </select>
 
                         </label>
-                      </div>
+                      
                     <canvas id="core-charte"></canvas>
                   </div>
 
                   <!--Chart.js-->
                   <div class="chart-cart">
-                    <div class="chart-header">
-                      <label for="filter-month" class="show-filter">
+                    
+                      <label for="filter-month" class="chart-header">
                           Show :
                           <select id="filter-month" class="filter-option">
                             <option value="all">This month</option>
@@ -246,7 +245,7 @@
                           </select>
 
                         </label>
-                    </div>
+                    
                     <!--  Wrapper du chart -->
                     <div class="circle-chart-wrapper">
                       <canvas id="circle-chart"></canvas>
