@@ -111,7 +111,7 @@ function escapeHtml(str: string = ""): string {
 let editingContactId : string | null = null;
 let editingCompanyId : string | null = null;
 // Fonction asynchrone pour sauvegarder un nouveau contact
-async function saveContact() {
+async function saveContact() : Promise<void> {
      // Détermine si on est en mode édition (true) ou création (false)
     const isEdit = editingContactId !== null;
      // Récupère le fichier avatar sélectionné (s’il existe)
