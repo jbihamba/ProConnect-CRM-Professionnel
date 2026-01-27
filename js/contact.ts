@@ -16,11 +16,34 @@ const contactCompanySector = document.getElementById("contact-sector") as HTMLIn
 const contactAvatar = document.getElementById("contact-photo") as HTMLInputElement;
 const saveContactBtn = document.getElementById("save-contact-btn") as HTMLElement;
 
+interface Company {
+  id: string;
+  name: string;
+  sectors: string;
+}
+
+interface Contact {
+  id: string;
+  fullName: string;
+  email: string;
+  avatar?: string;
+  companyId: string;
+}
+
+interface ValidationResult {
+  isValid: boolean;
+  errors: string[];
+}
+declare global {
+  interface Window {
+    injectContactDetails: (contactId: string) => void;
+  }
+}
 
 
 // Gestion des événements
 // Fonction qui affiche ou cache la fenêtre modale
-function toggleModal(isOpen : boolean) {
+function toggleModal(isOpen : boolean) : void {
      // Ajoute ou enlève la classe "hidden" selon la valeur de isOpen
   contactModal.classList.toggle("hidden", !isOpen);
 }
@@ -30,7 +53,7 @@ addContactBtn.addEventListener("click", () => toggleModal(true));
 closeContactModalBtn.addEventListener("click", () => toggleModal(false));
 
 //Fonction pour sécuriser le texte et éviter injection HTML
-function escapeHtml(str: string): string {
+function escapeHtml(str: string = ""): string {
      // si null ou undefined, utiliser une chaîne vide
      str = str || "";
      return str.replace(/&/g, "&amp;")
@@ -39,9 +62,9 @@ function escapeHtml(str: string): string {
 }
 
 // Fonction pour valider les données du formulaire de contact
-  function validateContactForm() {
+  function validateContactForm(): ValidationResult {
     // Tableau pour stocker les messages d'erreur
-    const errors = [];
+    const errors : string[] = [];
     // Récupère les valeurs des champs du formulaire
     const fullName = contactFullName.value.trim();
     const email = contactEmail.value.trim();
@@ -91,9 +114,9 @@ async function saveContact() {
      // Détermine si on est en mode édition (true) ou création (false)
     const isEdit = editingContactId !== null;
      // Récupère le fichier avatar sélectionné (s’il existe)
-    const avatarFile : null = contactAvatar.files[0];
+    const avatarFile : File | null = contactAvatar.files[0] ?? null;
     // Fonction interne qui envoie le contact quand l’avatar est prêt (URL ou Base64)
-    const sendContact = async (avatarValue) => {
+    const sendContact = async (avatarValue : string | null) => {
          // MODE ÉDITION
         try {
 
@@ -166,7 +189,7 @@ async function saveContact() {
             // Recharge la liste des contacts
             fetchContacts();
              // Réinitialise le formulaire
-            document.getElementById("contact-form").reset();
+            (document.getElementById("contact-form") as HTMLFormElement).reset();
 
         } catch (error) {
               // Affiche une erreur en cas d’échec
@@ -177,9 +200,13 @@ async function saveContact() {
  // Si un fichier avatar est sélectionné
     if (avatarFile) {
          // Crée un FileReader pour lire le fichier
-        const reader = new FileReader();
+        const reader : FileReader = new FileReader();
          // Quand la lecture est terminée
-        reader.onload = (e) => sendContact(e.target.result);
+        reader.onload = (e: ProgressEvent<FileReader>) => {
+        const result = e.target?.result;
+        sendContact(typeof result === "string" ? result : null);
+        };
+
          // Lance la lecture du fichier en Base64
         reader.readAsDataURL(avatarFile);
     }
@@ -199,7 +226,7 @@ saveContactBtn.addEventListener("click", () => {
      // Valide le formulaire et récupère les erreurs éventuelles
     const validation = validateContactForm();
       // Récupère l'élément DOM où les messages d'erreur seront affichés
-    const erreurMessage = document.getElementById("erreur-message");
+    const erreurMessage = document.getElementById("erreur-message") as HTMLElement;
     // Masque les messages d'erreur précédents
     erreurMessage.style.display = "none";
     erreurMessage.innerHTML = "";
@@ -217,9 +244,9 @@ saveContactBtn.addEventListener("click", () => {
     }
 });
 // Stocker les contacts en mémoire
-let allContacts = [];
+let allContacts : Contact[] = [];
 // Stocker les componies en memoire
-let allCompanies = [];
+let allCompanies : Company[] = [];
 // Fonction asynchrone pour récupérer et afficher la liste des contacts
 async function fetchContacts() {
     
@@ -253,7 +280,7 @@ async function fetchContacts() {
 let currentPage = 1;
 const contactsPerPage = 5;
 //Fonction qui découpe les contacts pour ne retourner que ceux de la page courante
-function getPaginatedContacts(contacts) {
+function getPaginatedContacts(contacts : Contact[]) : Contact[] {
     // Calcule l’index de départ en fonction de la page actuelle
   const start = (currentPage - 1) * contactsPerPage;
    // Calcule l’index de fin (non inclus dans slice)
@@ -262,9 +289,9 @@ function getPaginatedContacts(contacts) {
   return contacts.slice(start, end);
 }
 // Fonction qui gère l’affichage des boutons de pagination
-function renderPagination(totalContacts) {
+function renderPagination(totalContacts: number) {
     // Récupère le conteneur HTML de la pagination
-  const pagination = document.getElementById("pagination");
+  const pagination = document.getElementById("pagination") as HTMLElement;
    // Vide le contenu pour éviter les doublons
   pagination.innerHTML = "";
     // Calcule le nombre total de pages
@@ -316,21 +343,21 @@ function renderPagination(totalContacts) {
 
 
 // Variable pour gérer le délai entre les frappes 
-let searchTimeout;
+let searchTimeout : number | null = null;
 
 // Fonction pour rechercher les contacts en mémoire
-function searchContacts() {
+function searchContacts() : void {
    // Vérifie si les données (contacts et companies) sont chargées
   // si non, quitte la fonction pour éviter les erreurs
   if (!allContacts || !allCompanies) return;
 
  // Annule le timer précédent pour éviter de lancer plusieurs recherches trop rapidement
-  clearTimeout(searchTimeout);
+  clearTimeout(searchTimeout as number);
  // Définit un nouveau timer pour exécuter la recherche après un petit délai
   searchTimeout = setTimeout(() => {
     try {
         // Récupère la valeur de l'input, convertit en minuscules et supprime les espaces
-      const query = document.getElementById("search-input").value.toLowerCase().trim();
+      const query = (document.getElementById("search-input") as HTMLInputElement).value.toLowerCase().trim();
         // Sélectionne l'élément HTML où le message d'erreur sera affiché
       const searchErrorMessage = document.getElementById("search-error-message");
           // Si l'input est vide, afficher tous les contacts et effacer le message d'erreur
@@ -375,16 +402,16 @@ function searchContacts() {
 }
 
 // Événement sur l'input de recherche
-document.getElementById("search-input").addEventListener("input", searchContacts);
+(document.getElementById("search-input") as HTMLInputElement).addEventListener("input", searchContacts as EventListener);
 
 // Récupère une company par ID
-function getCompanyById(companies, companyId) {
+function getCompanyById(companies : Company[], companyId: string) : void | Company | null {
      //Parcourt le tableau des companies et retourne celle dont l'id correspond
   return companies.find(c => c.id === companyId) || null;
 }
 
 // Crée une ligne (<tr>) pour un contact
-function createContactRow(contact, company) {
+function createContactRow(contact: Contact, company:Company) {
     // Crée un élément HTML <tr> (ligne de tableau)
   const tr = document.createElement("tr");
     // Ajoute une classe CSS à la ligne pour le style
@@ -406,9 +433,10 @@ function createContactRow(contact, company) {
       </button>
     </td>
   `;
-        tr.addEventListener("click", (e) => {
-        if (e.target.closest(".contact-actions")) return;
-        injectContactDetails(contact.id);
+        tr.addEventListener("click", (e: MouseEvent) => {
+         const target = e.target as HTMLElement | null;
+        if (target?.closest(".contact-actions")) return;
+        window.injectContactDetails(contact.id);
         });
         
      // Retourne la ligne <tr> complètement construite
@@ -417,9 +445,9 @@ function createContactRow(contact, company) {
 }
 
 // Gestion du bouton "Edit"
-function handleEdit(contact, rowElement) {
+function handleEdit(contact: Contact, rowElement: HTMLElement) {
     // Sélectionne le bouton "edit" dans la ligne du contact
-  const editBtn = rowElement.querySelector(".edit-btn");
+  const editBtn = rowElement.querySelector(".edit-btn") as HTMLElement;
  // Ajoute un écouteur d'événement au clic sur le bouton "edit"
   editBtn.addEventListener("click", async () => {
     try {
@@ -462,9 +490,9 @@ function handleEdit(contact, rowElement) {
 }
 
 // Gestion du bouton "Delete"
-function handleDelete(contact, rowElement) {
+function handleDelete(contact: Contact, rowElement: HTMLElement) {
      // Sélectionne le bouton "delete" dans la ligne du contact
-  const deleteBtn = rowElement.querySelector(".delete-btn");
+  const deleteBtn = rowElement.querySelector(".delete-btn") as HTMLElement;
      // Ajoute un écouteur d'événement au clic sur le bouton "delete"
   deleteBtn.addEventListener("click", async () => {
     try {
@@ -490,11 +518,11 @@ function handleDelete(contact, rowElement) {
 }
 
 // Fonction principale d’affichage
-async function displayContacts(contacts) {
+async function displayContacts(contacts: Contact[]) {
      // Récupère la liste complète des companies déjà chargées
   const companies = allCompanies;
   // Sélectionne le <tbody> du tableau des contacts
-  const contactsList = document.getElementById("contacts-table-body");
+  const contactsList = document.getElementById("contacts-table-body") as HTMLElement;
      // Vide le tableau avant de le remplir à nouveau
   contactsList.innerHTML = "";
      // Parcourt chaque contact reçu en paramètre
@@ -502,7 +530,7 @@ async function displayContacts(contacts) {
     // Récupère la company associée au contact
     const company = getCompanyById(companies, contact.companyId);
      // Crée la ligne du tableau pour ce contact
-    const row = createContactRow(contact, company);
+    const row = createContactRow(contact as Contact, company as Company);
      // Attache la logique d'édition à la ligne
     handleEdit(contact, row);
      // Attache la logique de suppression à la ligne
@@ -512,7 +540,7 @@ async function displayContacts(contacts) {
   });
 }
 // On récupère l'élément <select> qui permet de filtrer les contacts
-const filterMain = document.getElementById("filter-main");
+const filterMain = document.getElementById("filter-main") as HTMLSelectElement;
 // On ajoute un écouteur d'événement qui se déclenche quand l'utilisateur change l'option du select
 filterMain.addEventListener("change", () => {
       // Vérifie que les listes de contacts et de companies existent et ne sont pas vides
@@ -520,7 +548,7 @@ filterMain.addEventListener("change", () => {
  // Crée un objet pour accéder rapidement aux companies via leur ID
   const companyMap = Object.fromEntries(allCompanies.map(c => [c.id, c]));
    // Initialisation du tableau qui contiendra les contacts filtrés
-  let filteredContacts = [];
+  let filteredContacts : Contact[] = [];
 // Si l'utilisateur choisit "All Contacts", on affiche tous les contacts
   if (filterMain.value === "all") {
     filteredContacts = allContacts;
@@ -592,7 +620,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // On définit la fonction injectContactDetails sur l'objet global "window"
   // pour qu'elle soit accessible depuis d'autres parties du code
-  window.injectContactDetails = function(contactId) {
+  window.injectContactDetails = function(contactId : string) {
      // Cherche le contact dans le tableau allContacts correspondant à l'ID
     const contact = allContacts.find(c => c.id === contactId);
      // Si aucun contact n'est trouvé, on quitte la fonction
@@ -600,11 +628,11 @@ document.addEventListener("DOMContentLoaded", () => {
      // Cherche la company associée au contact via son companyId
     const company = allCompanies.find(co => co.id === contact.companyId);
     // Récupère les éléments du DOM où on affichera les détails
-    const avatarEl = document.getElementById("modal-avatar");
-    const nameEl = document.getElementById("modal-fullname");
-    const emailEl = document.getElementById("modal-email");
-    const companyEl = document.getElementById("modal-company");
-    const sectorEl = document.getElementById("modal-sector");
+    const avatarEl = document.getElementById("modal-avatar") as HTMLImageElement;
+    const nameEl = document.getElementById("modal-fullname") as HTMLElement;
+    const emailEl = document.getElementById("modal-email") as HTMLElement;
+    const companyEl = document.getElementById("modal-company") as HTMLElement;
+    const sectorEl = document.getElementById("modal-sector") as HTMLElement;
 
     // Met à jour l'avatar (ou affiche un avatar par défaut si absent)
     if (avatarEl) avatarEl.src = contact.avatar || "https://ui-avatars.com/api/?name=User";
