@@ -16,6 +16,7 @@ const contactCompanySector = document.getElementById("contact-sector") as HTMLIn
 const contactAvatar = document.getElementById("contact-photo") as HTMLInputElement;
 const saveContactBtn = document.getElementById("save-contact-btn") as HTMLElement;
 
+// Définition des interfaces TypeScript pour typer les données
 interface Company {
   id: string;
   name: string;
