@@ -117,7 +117,7 @@ async function saveContact() : Promise<void> {
      // Récupère le fichier avatar sélectionné (s’il existe)
     const avatarFile : File | null = contactAvatar.files[0] ?? null;
     // Fonction interne qui envoie le contact quand l’avatar est prêt (URL ou Base64)
-    const sendContact = async (avatarValue : string | null) => {
+    const sendContact = async (avatarValue : string | null): Promise<void> => {
          // MODE ÉDITION
         try {
 
