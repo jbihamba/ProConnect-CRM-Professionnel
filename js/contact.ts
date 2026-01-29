@@ -115,7 +115,7 @@ async function saveContact() : Promise<void> {
      // Détermine si on est en mode édition (true) ou création (false)
     const isEdit = editingContactId !== null;
      // Récupère le fichier avatar sélectionné (s’il existe)
-    const avatarFile : File | null = contactAvatar.files[0] ?? null;
+    const avatarFile : File | null = contactAvatar.files?.[0] ?? null;
     // Fonction interne qui envoie le contact quand l’avatar est prêt (URL ou Base64)
     const sendContact = async (avatarValue : string | null): Promise<void> => {
          // MODE ÉDITION

@@ -119,10 +119,10 @@ function saveContact() {
     return __awaiter(this, void 0, void 0, function () {
         var isEdit, avatarFile, sendContact, reader, avatarUrl;
         var _this = this;
-        var _a;
-        return __generator(this, function (_b) {
+        var _a, _b;
+        return __generator(this, function (_c) {
             isEdit = editingContactId !== null;
-            avatarFile = (_a = contactAvatar.files[0]) !== null && _a !== void 0 ? _a : null;
+            avatarFile = (_b = (_a = contactAvatar.files) === null || _a === void 0 ? void 0 : _a[0]) !== null && _b !== void 0 ? _b : null;
             sendContact = function (avatarValue) { return __awaiter(_this, void 0, void 0, function () {
                 var companyRes, company, error_1;
                 return __generator(this, function (_a) {
